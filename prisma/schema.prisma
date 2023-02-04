@@ -10,18 +10,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Job {
+  value  String @id @unique
+  userId String
+  users  User[]
+}
+
+model Hobby {
+  value String          @id @unique
+  users HobbiesOnUser[]
+}
+
+model HobbiesOnUser {
+  user      User   @relation(fields: [userId], references: [id])
+  hobby     Hobby  @relation(fields: [hobbyName], references: [value])
+  userId    String
+  hobbyName String
+
+  @@id([hobbyName, userId])
+}
+
 model User {
-  id            String    @id @default(cuid())
+  id            String          @id @default(cuid())
   name          String?
   pfp           String?
   bio           String?
-  email         String?   @unique
+  email         String?         @unique
   emailVerified DateTime?
   image         String?
   trips         Trip[]
   sessions      Session[]
   accounts      Account[]
   pictures      Picture[]
+  job           Job             @relation(fields: [jobName], references: [value])
+  jobName       String
+  hobbies       HobbiesOnUser[]
 }
 
 model Picture {
