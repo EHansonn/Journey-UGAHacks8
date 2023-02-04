@@ -22,14 +22,15 @@ import {
 import type { RcFile, UploadProps } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { InboxOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
-import LocationSearch, { onPlaceSelected } from '../../components/maps/AutoComplete';
+import LocationSearch from '../../components/maps/AutoComplete';
 import { fileToBase64 } from '../../lib/file';
 import AutoComplete from '../../components/maps/AutoComplete';
+import { TripBody } from '@/pages/api/trip';
 
 interface FormFields {
-	name: string;
-	title: string;
-	imageBody: UploadFile[];
+	location: string;
+	desc: string;
+	date: string;
 }
 
 interface Props {}
@@ -43,7 +44,7 @@ export interface NewTripRef {
 }
 
 const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({}, ref) => {
-	const AutoCompleteRef = useRef<AutoCompleteRef>(null);
+	//	const AutoCompleteRef = useRef<AutoCompleteRef>(null);
 
 	const [previewOpen, setPreviewOpen] = useState(false);
 	const [previewImage, setPreviewImage] = useState('');
@@ -133,9 +134,9 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({}, ref
 		return e?.fileList;
 	};
 
-	const getThing = (props) => {
-		console.log('kekw');
-		//console.log(props);
+	const getThing = (props: any) => {
+		//console.log('kekw');
+		console.log(props);
 		setLocationCRap(props);
 	};
 	// const onChange = (value, dateString) => {
@@ -157,16 +158,24 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({}, ref
 					form={form}
 					name="validate_other"
 					{...formItemLayout}
-					onFinish={async (data) => {
+					onFinish={async ({ date, desc, location }) => {
 						// When the form is submitted, convert the images to base64 and trigger the GQL mutation
-						if (imagesBody[0].originFileObj) {
-							try {
-								console.log(data);
-								console.log(locationCrap);
-								const imageBody = await fileToBase64(imagesBody[0].originFileObj);
-							} catch (e: any) {
-								//setError(e);
-							}
+
+						try {
+							const promises = imagesBody.map((img) => {
+								if (img.originFileObj) {
+									return fileToBase64(img.originFileObj);
+								}
+							});
+							const base64 = (await Promise.all(promises)).filter((img) => {
+								img !== undefined;
+							}) as string[];
+
+							//console.log(data);
+							console.log(locationCrap);
+							// const imageBody = await fileToBase64(imagesBody[0].originFileObj);
+						} catch (e: any) {
+							//setError(e);
 						}
 					}}
 				>
@@ -182,7 +191,7 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({}, ref
 						name="location"
 						rules={[{ required: false, message: 'Please input your description!' }]}
 					>
-						<LocationSearch getThing={getThing} ref={onPlaceSelected} />
+						<LocationSearch getThing={getThing} />
 					</Form.Item>
 					<Form.Item
 						label="Describe your trip!"
@@ -209,37 +218,7 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({}, ref
 						</Button>
 					</Form.Item>
 				</Form>
-				{/* <LocationSearch></LocationSearch> */}
-				{/* <RangePicker onChange={onChange} />
-				<Upload
-					action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-					listType="picture-card"
-					fileList={fileList}
-					onPreview={handlePreview}
-					onChange={handleChange}
-				>
-					{fileList.length >= 8 ? null : uploadButton}
-				</Upload>
-				<Form
-					name="basic"
-					labelCol={{ span: 8 }}
-					wrapperCol={{ span: 16 }}
-					style={{ maxWidth: 600 }}
-					initialValues={{ remember: true }}
-					onFinish={onFinish}
-					onFinishFailed={onFinishFailed}
-					autoComplete="off"
-				>
-					<Form.Item label="Bio" name="Bio" rules={[{ required: false, message: 'Please input your Bio!' }]}>
-						<TextArea rows={4} />
-					</Form.Item>
 
-					<Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-						<Button type="primary" htmlType="submit">
-							Save
-						</Button>
-					</Form.Item>
-				</Form> */}
 				<Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
 					<img alt="example" style={{ width: '100%' }} src={previewImage} />
 				</Modal>
