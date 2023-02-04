@@ -28,7 +28,7 @@ const Settings: React.FC<Props> = ({ user, hobbies, jobs }) => {
 			</div>
 			<div className="text-black"></div>
 			<EditBioModal user={user} ref={editBioRef} hobbies={hobbies} jobs={jobs} />
-			<NewTripModal ref={newTripRef} />
+			<NewTripModal ref={newTripRef} user={user} />
 		</>
 	);
 };

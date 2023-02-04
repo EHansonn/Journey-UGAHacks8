@@ -26,6 +26,7 @@ import LocationSearch from '../../components/maps/AutoComplete';
 import { fileToBase64 } from '../../lib/file';
 import AutoComplete from '../../components/maps/AutoComplete';
 import { TripBody } from '@/pages/api/trip';
+import { User } from '@/pages/account';
 
 interface FormFields {
 	location: string;
@@ -33,7 +34,9 @@ interface FormFields {
 	date: string;
 }
 
-interface Props {}
+interface Props {
+	user: User;
+}
 const { TextArea } = Input;
 
 export interface NewTripRef {
@@ -43,7 +46,7 @@ export interface NewTripRef {
 	cancel: () => void;
 }
 
-const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({}, ref) => {
+const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({ user }, ref) => {
 	//	const AutoCompleteRef = useRef<AutoCompleteRef>(null);
 
 	const [previewOpen, setPreviewOpen] = useState(false);
@@ -100,7 +103,7 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({}, ref
 		imgWindow?.document.write(image.outerHTML);
 	};
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [locationCrap, setLocationCRap] = useState();
+	const [locationCrap, setLocationCRap] = useState<google.maps.places.PlaceResult>();
 	useImperativeHandle(ref, () => ({
 		visible: isModalOpen,
 		cancel: handleCancel,
@@ -134,9 +137,10 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({}, ref
 		return e?.fileList;
 	};
 
-	const getThing = (props: any) => {
+	const getThing = (props: google.maps.places.PlaceResult) => {
 		//console.log('kekw');
 		console.log(props);
+
 		setLocationCRap(props);
 	};
 	// const onChange = (value, dateString) => {
@@ -170,6 +174,19 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({}, ref
 							const base64 = (await Promise.all(promises)).filter((img) => {
 								img !== undefined;
 							}) as string[];
+
+							fetch(`http://localhost:3000/api/trip`, {
+								method: 'POST',
+								headers: {
+									'Content-Type': 'application/json',
+								},
+								body: JSON.stringify({
+									userId: user.id,
+									location: locationCrap?.formatted_address ?? '',
+									desc,
+									date,
+								} as TripBody),
+							});
 
 							//console.log(data);
 							console.log(locationCrap);

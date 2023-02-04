@@ -18,19 +18,25 @@ export type User = {
 	job: string;
 	hobbies: string[];
 };
+export type Trip = {
+	desc: string;
+	location: string;
+	date: string;
+};
 interface Props {
 	user?: User;
 	jobs?: string[];
 	hobbies?: string[];
+	trips?: Trip[];
 	error?: string;
 }
 
-const Account: NextPage<Props> = ({ user, error, hobbies, jobs }) => {
+const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 	const [displayedInfo, selectDisplayedInfo] = useState<'Bio' | 'Trips' | 'Settings'>('Bio');
 	if (error) {
 		return <div>Error go brrrrrr {error}</div>;
 	}
-	if (!user || !jobs || !hobbies) {
+	if (!user || !jobs || !hobbies || !trips) {
 		return <div>Oh no no user!</div>;
 	}
 	console.log(user);
@@ -72,7 +78,7 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs }) => {
 					</div>
 				</div>
 				{displayedInfo === 'Bio' && <Bio user={user} />}
-				{displayedInfo === 'Trips' && <Trips />}
+				{displayedInfo === 'Trips' && <Trips trips={trips} />}
 				{displayedInfo === 'Settings' && <Settings user={user} jobs={jobs} hobbies={hobbies} />}
 			</div>
 			<div className="bg-indigo-800 h-full w-2/3">
@@ -89,8 +95,10 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req, res }
 		const u = prisma?.user.findFirst({ where: { id: session.user.id }, include: { hobbies: true } });
 		const j = prisma?.job.findMany({});
 		const h = prisma?.hobby.findMany({});
-		const [user, jobs, hobbies] = await Promise.all([u, j, h]);
-		if (user && jobs && hobbies) {
+		const t = prisma?.trip.findMany({ where: { userId: session.user.id } });
+
+		const [user, jobs, hobbies, trips] = await Promise.all([u, j, h, t]);
+		if (user && jobs && hobbies && trips) {
 			return {
 				props: {
 					user: {
@@ -103,6 +111,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req, res }
 					},
 					jobs: jobs.map((job) => job.value),
 					hobbies: hobbies.map((hobby) => hobby.value),
+					trips: trips.map((trip) => ({
+						date: trip.date.getFullYear().toString(),
+						desc: trip.desc,
+						location: trip.location,
+					})),
 				},
 			};
 		}

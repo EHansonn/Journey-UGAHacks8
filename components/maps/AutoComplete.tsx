@@ -36,9 +36,9 @@ const LocationSearch: React.FC<Props> = (props) => {
 	return (
 		<Autocomplete
 			apiKey={'AIzaSyD5ph5jOFo5DH0hYD9CQVjz9kCwZOHvYK4'}
-			onPlaceSelected={(...args) => {
+			onPlaceSelected={(places) => {
 				//@ts-ignore
-				onPlaceSelected.current(args);
+				onPlaceSelected.current(places);
 			}}
 		/>
 	);
