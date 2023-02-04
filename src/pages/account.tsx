@@ -43,8 +43,8 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 	}
 	console.log(user);
 	return (
-		<div className="flex flex-row h-full  ">
-			<div className="bg-sky-800 flex content-center flex-col justify-center h-full items-center w-1/3    ">
+		<div className="flex flex-row h-full sticky  space-x-3 ">
+			<div className="bg-blue-900 rounded-md  flex content-center flex-col justify-center h-full items-center w-1/3    ">
 				<img src={user.pfp} className="mt-3 bg-slate-500 rounded-full h-[100px] w-[100px]" />
 				<div className="text-white text-2xl mb-3">{user.name}</div>
 				<div className="flex justify-around w-full text-white mb-4">
@@ -83,7 +83,7 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 				{displayedInfo === 'Trips' && <Trips trips={trips} />}
 				{displayedInfo === 'Settings' && <Settings user={user} jobs={jobs} hobbies={hobbies} />}
 			</div>
-			<div className="bg-indigo-800 h-full w-2/3">
+			<div className="bg-indigo-800  w-full rounded-md flex h-full w-2/3">
 				{/* <LocationSearch /> */}
 				<RenderMap trips={trips} />;
 			</div>

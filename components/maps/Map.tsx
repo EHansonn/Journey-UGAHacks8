@@ -2,11 +2,6 @@ import React from 'react';
 import { Circle, GoogleMap, LoadScript, MarkerF, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { Trip } from '@/pages/account';
 
-const containerStyle = {
-	width: '800px',
-	height: '800px',
-};
-
 interface Trips {
 	trips: Trip[];
 }
@@ -34,7 +29,13 @@ const Map: React.FC<Trips> = ({ trips }) => {
 	if (isLoaded) {
 		return (
 			// <LoadScript googleMapsApiKey="AIzaSyBmL0gukE5saXobjQNHTXDgKwUegl4ikMU">
-			<GoogleMap id="circle-example" mapContainerStyle={containerStyle} center={center} zoom={1}>
+			<GoogleMap
+				mapContainerClassName=" w-screen h-[800px]"
+				id="circle-example"
+				// mapContainerStyle={containerStyle}
+				center={center}
+				zoom={1.5}
+			>
 				{trips.map((trip, i) => (
 					<MarkerF key={i} onLoad={onLoad} position={{ lat: trip.lat, lng: trip.lon }} />
 				))}
