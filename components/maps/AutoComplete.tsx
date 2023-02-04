@@ -1,23 +1,44 @@
 import { useJsApiLoader } from '@react-google-maps/api';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { useImperativeHandle, useState } from 'react';
 import Autocomplete from 'react-google-autocomplete';
 
-const LocationSearch: React.FC = () => {
-	const { isLoaded, loadError } = useJsApiLoader({
-		googleMapsApiKey: 'AIzaSyBmL0gukE5saXobjQNHTXDgKwUegl4ikMU',
-		libraries: ['drawing', 'geometry', 'localContext', 'places', 'visualization'],
-	});
-	if (isLoaded) {
-		return (
-			<Autocomplete
-				// apiKey={'AIzaSyD5ph5jOFo5DH0hYD9CQVjz9kCwZOHvYK4'}
-				onPlaceSelected={(place) => {
-					console.log(place);
-				}}
-			/>
-		);
-	} else {
-		return <div>Loading</div>;
-	}
+export interface AutoCompleteRef {
+	location: google.maps.places.PlaceResult | null;
+}
+const LocationSearch = (props) => {
+	const [someState, setSomeState] = useState(false);
+	const onPlaceSelected = React.forwardRef(() => undefined);
+
+	const toggleState = useCallback(() => {
+		const newState = !someState;
+		setSomeState(newState);
+		console.log('new state is', newState);
+	}, [someState]);
+
+	// "onPlaceSelected" is assinged a new function everytime "toggleState" changes
+	useEffect(() => {
+		onPlaceSelected.current = (place) => {
+			//console.log(place);
+			props.getThing(place);
+			toggleState();
+		};
+	}, [toggleState]);
+
+	return (
+		<Autocomplete
+			apiKey={'AIzaSyD5ph5jOFo5DH0hYD9CQVjz9kCwZOHvYK4'}
+			onPlaceSelected={(...args) => {
+				onPlaceSelected.current(args);
+			}}
+		/>
+	);
 };
 
+// // apiKey={'AIzaSyD5ph5jOFo5DH0hYD9CQVjz9kCwZOHvYK4'}
+// 				onPlaceSelected={(place) => {
+// 					d('dumb');
+// 					console.log('poopy');
+// 					selectSelectedState(place);
+// 					console.log(place);
 export default LocationSearch;
