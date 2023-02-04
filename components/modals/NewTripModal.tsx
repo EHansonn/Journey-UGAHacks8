@@ -204,7 +204,7 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({}, ref
 						</Upload>
 					</Form.Item>
 					<Form.Item wrapperCol={{ span: 12, offset: 6 }}>
-						<Button type="primary" htmlType="submit">
+						<Button className="shadow shadow-md shadow-2xl" htmlType="submit">
 							Submit
 						</Button>
 					</Form.Item>

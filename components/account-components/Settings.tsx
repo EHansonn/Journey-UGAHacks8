@@ -1,5 +1,5 @@
 import { Fragment, useRef, useState } from 'react';
-import { Button, Space } from 'antd';
+import { Button, Space, Radio, RadioChangeEvent } from 'antd';
 import { UserGetResponse } from '@/pages/api/user/[id]';
 import EditBioModal from 'components/modals/EditBioModal';
 import { EditBioRef } from 'components/modals/EditBioModal';

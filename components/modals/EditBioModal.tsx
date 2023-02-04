@@ -106,10 +106,10 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user,
 					</Form.Item>
 
 					<Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-						<Button onClick={handleCancel} type="primary">
+						<Button className="text-black  shadow shadow-md shadow-2xl" onClick={handleCancel}>
 							Cancel
 						</Button>
-						<Button type="primary" htmlType="submit">
+						<Button className="text-black shadow shadow-md shadow-2xl " htmlType="submit">
 							Save
 						</Button>
 					</Form.Item>
