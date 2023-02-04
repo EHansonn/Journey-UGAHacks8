@@ -11,14 +11,17 @@ datasource db {
 }
 
 model User {
-  id       String    @id @default(cuid())
-  name     String    @unique
-  pfp      String
-  bio      String
-  trips    Trip[]
-  sessions Session[]
-  accounts Account[]
-  pictures Picture[]
+  id            String    @id @default(cuid())
+  name          String?
+  pfp           String?
+  bio           String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  trips         Trip[]
+  sessions      Session[]
+  accounts      Account[]
+  pictures      Picture[]
 }
 
 model Picture {
