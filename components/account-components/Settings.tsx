@@ -1,13 +1,24 @@
-import EditBioModal from 'components/modals/EditBioModal';
-import { Fragment, useState } from 'react';
+import { Fragment, useRef, useState } from 'react';
 import { Button, Space } from 'antd';
+import EditBioModal from 'components/modals/EditBioModal';
+import { EditBioRef } from 'components/modals/EditBioModal';
+import NewTripModal, { NewTripRef } from 'components/modals/NewTripModal';
+
 const Settings = () => {
-    const [openModal, setOpenModal] = useState(false);
+	const editBioRef = useRef<EditBioRef>(null);
+	const newTripRef = useRef<NewTripRef>(null);
 
 	return (
 		<>
-			<Button type="primary">Primary Button</Button>
-			<div className="text-black">Edit profile</div>
+			<Button onClick={() => editBioRef.current?.showModal(true)} type="primary">
+				Edit Bio
+			</Button>
+			<Button onClick={() => newTripRef.current?.showModal(true)} type="primary">
+				New Trip
+			</Button>
+			<div className="text-black"></div>
+			<EditBioModal ref={editBioRef} />
+			<NewTripModal ref={newTripRef} />
 		</>
 	);
 };
