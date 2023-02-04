@@ -1,15 +1,10 @@
-import Head from 'next/head';
-import Image from 'next/image';
-import { Inter } from '@next/font/google';
-import ProfileSidebar from 'components/ProfileSidebar';
-import { UserOutlined } from '@ant-design/icons';
 import { useState, forwardRef, useImperativeHandle, useRef, useEffect } from 'react';
 import Bio from 'components/account-components/Bio';
 import Settings from 'components/account-components/Settings';
 import Trips from 'components/account-components/Trips';
-import RenderMap from '../../components/maps/renderMap';
-import ReactGoogleAutocomplete from 'react-google-autocomplete';
+import RenderMap from '../../components/maps/Map';
 import { useSession } from 'next-auth/react';
+import LocationSearch from 'components/maps/AutoComplete';
 
 const Account = () => {
 	const [displayedInfo, selectDisplayedInfo] = useState('Bio');
@@ -44,12 +39,7 @@ const Account = () => {
 				{displayedInfo === 'Settings' && <Settings></Settings>}
 			</div>
 			<div className="bg-red-200 h-full w-2/3">
-				{/* <ReactGoogleAutocomplete
-					apiKey={'AIzaSyBmL0gukE5saXobjQNHTXDgKwUegl4ikMU'}
-					onPlaceSelected={(place: any) => {
-						console.log(place);
-					}}
-				/> */}
+				<LocationSearch />
 				<RenderMap />;
 			</div>
 		</div>
