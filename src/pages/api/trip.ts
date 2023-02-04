@@ -24,10 +24,11 @@ export default async function handler(req: UserApiRequest, res: NextApiResponse)
 		try {
 			console.log(req.body);
 			const user = await prisma.trip.create({
-				data: { userId, location, desc, date,   },
+				data: { userId, location, desc, date },
 			});
 			return res.status(200).json(user);
 		} catch (err) {
+			console.log(err);
 			return res.status(500).json(err);
 		}
 	}
