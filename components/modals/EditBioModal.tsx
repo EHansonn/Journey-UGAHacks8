@@ -53,7 +53,7 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user 
 	};
 	return (
 		<>
-			<Modal title="User Settings" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+			<Modal title="User Settings" open={isModalOpen} onOk={handleOk} footer={null} onCancel={handleCancel}>
 				<Form
 					name="basic"
 					labelCol={{ span: 8 }}
@@ -87,6 +87,9 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user 
 					</Form.Item>
 
 					<Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+						<Button onClick={handleCancel} type="primary">
+							Cancel
+						</Button>
 						<Button type="primary" htmlType="submit">
 							Save
 						</Button>
@@ -98,3 +101,9 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user 
 };
 
 export default React.forwardRef<EditBioRef, Props>(EditBioModal);
+
+{
+	/* <Button onClick={handleCancel} type="primary">
+	Cancel
+</Button>; */
+}
