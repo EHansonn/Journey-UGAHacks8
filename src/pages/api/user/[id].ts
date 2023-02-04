@@ -1,3 +1,4 @@
+import { User } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../../lib/prisma';
 
@@ -12,6 +13,18 @@ interface UserApiRequest extends NextApiRequest {
 		id: string;
 	};
 }
+
+export type UserGetResponse =
+	| {
+			name: string;
+			bio: string;
+			pfp: string;
+			id: string;
+	  }
+	| { error: string };
+
+export type UserPostResponse = User | { [key: string]: any };
+
 export default async function handler(req: UserApiRequest, res: NextApiResponse) {
 	// prisma.user.ge
 	if (req.method === 'GET') {
@@ -23,6 +36,7 @@ export default async function handler(req: UserApiRequest, res: NextApiResponse)
 					name: user.name,
 					bio: user.bio,
 					pfp: user.pfp,
+					id,
 				});
 			}
 			return res.status(500).json({ error: `A user of id ${id} could not be found.` });

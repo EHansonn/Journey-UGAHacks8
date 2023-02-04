@@ -1,8 +1,13 @@
 import EditBioModal from 'components/modals/EditBioModal';
 import { Fragment, useState } from 'react';
 import { Button, Space } from 'antd';
-const Settings = () => {
-    const [openModal, setOpenModal] = useState(false);
+import { UserGetResponse } from '@/pages/api/user/[id]';
+
+interface Props {
+	user: UserGetResponse;
+}
+const Settings: React.FC<Props> = ({ user }) => {
+	const [openModal, setOpenModal] = useState(false);
 
 	return (
 		<>
