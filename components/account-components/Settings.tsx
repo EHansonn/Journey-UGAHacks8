@@ -1,5 +1,5 @@
 import { Fragment, useRef, useState } from 'react';
-import { Button, Space } from 'antd';
+import { Button, Space, Radio, RadioChangeEvent } from 'antd';
 import { UserGetResponse } from '@/pages/api/user/[id]';
 import EditBioModal from 'components/modals/EditBioModal';
 import { EditBioRef } from 'components/modals/EditBioModal';
@@ -16,10 +16,20 @@ const Settings: React.FC<Props> = ({ user }) => {
 
 	return (
 		<>
-			<Button onClick={() => editBioRef.current?.showModal(true)} type="primary">
+			<Button
+				className="text-black"
+				style={{ background: 'white', borderColor: 'White' }}
+				onClick={() => editBioRef.current?.showModal(true)}
+				type="primary"
+			>
 				Edit Bio
 			</Button>
-			<Button onClick={() => newTripRef.current?.showModal(true)} type="primary">
+			<Button
+				className="text-black"
+				style={{ background: 'white', borderColor: 'White' }}
+				onClick={() => newTripRef.current?.showModal(true)}
+				type="primary"
+			>
 				New Trip
 			</Button>
 			<div className="text-black"></div>
