@@ -11,7 +11,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 		<SessionProvider session={session}>
 			{/* <LoadScript libraries= googleMapsApiKey="AIzaSyBmL0gukE5saXobjQNHTXDgKwUegl4ikMU"> */}
 			<Layout>
-				<Component {...pageProps} />;
+				<Component {...pageProps} />
 			</Layout>
 			{/* </LoadScript> */}
 		</SessionProvider>

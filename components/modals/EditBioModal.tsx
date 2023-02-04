@@ -24,6 +24,7 @@ export interface EditBioRef {
 	okay: () => void;
 	cancel: () => void;
 }
+
 const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user, jobs, hobbies }, ref) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [form] = Form.useForm<FormFields>();
@@ -101,7 +102,7 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user,
 						name="hobbies"
 						rules={[{ required: false, message: 'Please input your hobbies!' }]}
 					>
-						<Select mode="multiple" options={hobbyOptions} />
+						<Select mode="multiple" options={hobbyOptions} defaultValue={user.hobbies} />
 					</Form.Item>
 
 					<Form.Item wrapperCol={{ offset: 8, span: 16 }}>
@@ -119,9 +120,3 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user,
 };
 
 export default React.forwardRef<EditBioRef, Props>(EditBioModal);
-
-{
-	/* <Button onClick={handleCancel} type="primary">
-	Cancel
-</Button>; */
-}

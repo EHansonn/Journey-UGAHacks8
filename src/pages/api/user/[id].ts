@@ -47,12 +47,17 @@ export default async function handler(req: UserApiRequest, res: NextApiResponse)
 			return res.status(500).json(err);
 		}
 	} else if (req.method === 'POST') {
-		const { id, name, bio, job } = req.body;
+		const { id, name, bio, job, hobbies } = req.body;
 		try {
 			console.log(req.body);
-			// const user = await prisma.user.update({ where: { id }, data: { bio, name, pfp } });
-			return res.status(200).json({});
-			// return res.status(200).json(user);
+			await prisma.hobbiesOnUser.deleteMany({ where: { userId: id } });
+			await prisma.hobbiesOnUser.createMany({ data: hobbies.map((hobby) => ({ hobbyName: hobby, userId: id })) });
+			const user = await prisma.user.update({
+				where: { id },
+				data: { bio, name, jobName: job },
+				include: { hobbies: true },
+			});
+			return res.status(200).json(user);
 		} catch (err) {
 			return res.status(500).json(err);
 		}

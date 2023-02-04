@@ -7,11 +7,14 @@ interface Props {
 const Bio: React.FC<Props> = ({ user }) => {
 	return (
 		<>
-			<div className="text-black flex flex-col h-48 justify-around">
-				{user.bio}
-				<div>Job: {user.job}</div>
-				<div>Home: placeholder</div>
-				<div>Hobbies: {user.hobbies.join(', ')}</div>
+			<div className="text-white grid grid-cols-2">
+				<div className="col-span-2 mb-3">{user.bio}</div>
+				<div>Job:</div>
+				<div>{user.job}</div>
+				<div>Home:</div>
+				<div>Tamriel</div>
+				<div>Hobbies:</div>
+				<div>{user.hobbies.join(', ')}</div>
 			</div>
 		</>
 	);
