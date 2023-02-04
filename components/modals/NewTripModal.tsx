@@ -26,6 +26,8 @@ import LocationSearch from '../../components/maps/AutoComplete';
 import { fileToBase64 } from '../../lib/file';
 import AutoComplete from '../../components/maps/AutoComplete';
 import { TripBody } from '@/pages/api/trip';
+import { uploadImages } from 'lib/aws';
+import cuid from 'lib/cuid';
 
 interface FormFields {
 	location: string;
@@ -37,10 +39,7 @@ interface Props {}
 const { TextArea } = Input;
 
 export interface NewTripRef {
-	visible: boolean;
 	showModal: (visible: boolean) => void;
-	okay: () => void;
-	cancel: () => void;
 }
 
 const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({}, ref) => {
@@ -102,9 +101,6 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({}, ref
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [locationCrap, setLocationCRap] = useState();
 	useImperativeHandle(ref, () => ({
-		visible: isModalOpen,
-		cancel: handleCancel,
-		okay: handleOk,
 		showModal,
 	}));
 
@@ -167,13 +163,16 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({}, ref
 									return fileToBase64(img.originFileObj);
 								}
 							});
-							const base64 = (await Promise.all(promises)).filter((img) => {
-								img !== undefined;
-							}) as string[];
-
-							//console.log(data);
+							const base64 = (await Promise.all(promises))
+								.filter((img) => {
+									img !== undefined;
+								})
+								.map((b64, i) => ({
+									name: `{user.id}-${date}-${location}-${cuid()}`,
+									body: b64 ?? '',
+								}));
+							uploadImages(base64);
 							console.log(locationCrap);
-							// const imageBody = await fileToBase64(imagesBody[0].originFileObj);
 						} catch (e: any) {
 							//setError(e);
 						}
