@@ -7,13 +7,10 @@ const Navbar = () => {
 		<>
 			<div className="sticky top-0 w-full left-0 bg-inherit flex justify-start bg-indigo-900 p-4   ">
 				{/* <h1 className="text-lg select-none "> */}
-				<div className="mr-10">Dank Site</div>
+				<div className="mr-10">Website name</div>
 				<div className="flex">
 					<Link className="text-white mr-10 no-underline" href="/">
 						Home
-					</Link>
-					<Link className="text-white mr-10 no-underline" href="/connect">
-						Connect
 					</Link>
 
 					{session === null ? (
@@ -21,9 +18,17 @@ const Navbar = () => {
 							Login
 						</Link>
 					) : (
-						<Link className="text-white mr-10 no-underline" href="/account">
-							Account
-						</Link>
+						<>
+							<Link className="text-white mr-10 no-underline" href="/connect">
+								Connect
+							</Link>
+							<Link className="text-white mr-10 no-underline" href="/account">
+								Account
+							</Link>
+							<Link className="text-white mr-10 no-underline" href="/api/auth/signout">
+								Signout
+							</Link>
+						</>
 					)}
 				</div>
 

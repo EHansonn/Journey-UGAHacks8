@@ -45,11 +45,11 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 	console.log(user);
 	console.log(trips);
 	return (
-		<div className="flex flex-row h-full sticky  space-x-3 ">
-			<div className="bg-blue-900 rounded-md  flex content-center flex-col justify-center h-full items-center w-1/3    ">
+		<div className="flex flex-row bg-blue-900 rounded-md h-full  space-x-3 ">
+			<div className="bg-blue-900 rounded-md  flex content-center flex5 flex-col   items-center w-1/3    ">
 				<img src={user.pfp} className="mt-3 bg-slate-500 rounded-full h-[100px] w-[100px]" />
 				<div className="text-white text-2xl mb-3">{user.name}</div>
-				<div className="flex justify-around w-full text-white mb-4">
+				<div className="flex justify-around w-full text- mb-4">
 					<div
 						className={`cursor-pointer ${
 							displayedInfo === 'Bio' ? 'border-b-2 border-x-0 border-t-0 border-white border-solid' : ''
