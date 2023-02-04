@@ -8,6 +8,7 @@ interface UserApiRequest extends NextApiRequest {
 		bio: string;
 		name: string;
 		pfp: string;
+		job: string;
 	};
 	query: {
 		id: string;

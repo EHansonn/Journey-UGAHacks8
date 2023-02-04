@@ -36,7 +36,7 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user 
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(''),
+			body: JSON.stringify({}),
 		});
 	};
 
@@ -53,7 +53,7 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user 
 	};
 	return (
 		<>
-			<Modal title="User Settings" open={isModalOpen} onOk={handleOk} footer={null} onCancel={handleCancel}>
+			<Modal title="User Settings" open={isModalOpen} footer={null}>
 				<Form
 					name="basic"
 					labelCol={{ span: 8 }}
@@ -64,12 +64,12 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user 
 					onFinishFailed={onFinishFailed}
 					autoComplete="off"
 				>
-					<Form.Item label="Bio" name="Bio" rules={[{ required: false, message: 'Please input your Bio!' }]}>
-						<TextArea rows={4} />
+					<Form.Item label="Bio" name="bio" rules={[{ required: false, message: 'Please input your Bio!' }]}>
+						<TextArea rows={4} defaultValue={user.bio} />
 					</Form.Item>
 
-					<Form.Item label="Job" name="Job" rules={[{ required: false, message: 'Please input your job!' }]}>
-						<Input />
+					<Form.Item label="Job" name="job" rules={[{ required: false, message: 'Please input your job!' }]}>
+						<Input defaultValue={user.job} />
 					</Form.Item>
 					<Form.Item
 						label="Home"

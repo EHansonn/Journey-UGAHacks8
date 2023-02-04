@@ -15,6 +15,7 @@ export type User = {
 	bio: string;
 	pfp: string;
 	name: string;
+	job: string;
 };
 interface Props {
 	user?: User;
@@ -51,8 +52,8 @@ const Account: NextPage<Props> = ({ user, error }) => {
 				{displayedInfo === 'Settings' && <Settings user={user} />}
 			</div>
 			<div className="bg-indigo-800 h-full w-2/3">
-				{/* <LocationSearch />
-				<RenderMap />; */}
+				<LocationSearch />
+				{/* <RenderMap />; */}
 			</div>
 		</div>
 	);
@@ -64,7 +65,15 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req, res }
 		const user = await prisma?.user.findFirst({ where: { id: session.user.id } });
 		if (user) {
 			return {
-				props: { user: { id: user.id, bio: user.bio ?? '', pfp: user.pfp ?? '', name: user.name ?? '' } },
+				props: {
+					user: {
+						id: user.id,
+						bio: user.bio ?? '',
+						pfp: user.pfp ?? '',
+						name: user.name ?? '',
+						job: user.jobName ?? '',
+					},
+				},
 			};
 		}
 	}
