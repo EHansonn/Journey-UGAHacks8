@@ -1,5 +1,15 @@
+import EditBioModal from 'components/modals/EditBioModal';
+import { Fragment, useState } from 'react';
+import { Button, Space } from 'antd';
 const Settings = () => {
-return <h1>settings</h1>
-}
+    const [openModal, setOpenModal] = useState(false);
 
-export default Settings
+	return (
+		<>
+			<Button type="primary">Primary Button</Button>
+			<div className="text-black">Edit profile</div>
+		</>
+	);
+};
+
+export default Settings;
