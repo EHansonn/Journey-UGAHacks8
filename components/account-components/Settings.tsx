@@ -5,6 +5,7 @@ import EditBioModal from 'components/modals/EditBioModal';
 import { EditBioRef } from 'components/modals/EditBioModal';
 import NewTripModal, { NewTripRef } from 'components/modals/NewTripModal';
 import { User } from '@/pages/account';
+import {signOut} from "next-auth/react"
 
 interface Props {
 	user: User;
