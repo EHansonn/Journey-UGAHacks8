@@ -6,8 +6,14 @@ import Autocomplete from 'react-google-autocomplete';
 export interface AutoCompleteRef {
 	location: google.maps.places.PlaceResult | null;
 }
-const LocationSearch = (props) => {
+
+interface Props {
+	getThing: (props: any) => void;
+}
+
+const LocationSearch: React.FC<Props> = (props) => {
 	const [someState, setSomeState] = useState(false);
+	//@ts-ignore
 	const onPlaceSelected = React.forwardRef(() => undefined);
 
 	const toggleState = useCallback(() => {
@@ -18,8 +24,10 @@ const LocationSearch = (props) => {
 
 	// "onPlaceSelected" is assinged a new function everytime "toggleState" changes
 	useEffect(() => {
+		//@ts-ignore
 		onPlaceSelected.current = (place) => {
 			//console.log(place);
+			//@ts-ignore
 			props.getThing(place);
 			toggleState();
 		};
@@ -29,6 +37,7 @@ const LocationSearch = (props) => {
 		<Autocomplete
 			apiKey={'AIzaSyD5ph5jOFo5DH0hYD9CQVjz9kCwZOHvYK4'}
 			onPlaceSelected={(...args) => {
+				//@ts-ignore
 				onPlaceSelected.current(args);
 			}}
 		/>

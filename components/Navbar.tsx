@@ -1,21 +1,31 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 const Navbar = () => {
+	const { data: session } = useSession();
 	return (
 		<>
-			<div className="sticky top-0 w-full left-0 bg-inherit flex justify-content: space-around; justify-around bg-indigo-900 p-4 border-b border-solid border-white  ">
-				<h1 className="text-3xl select-none sm:text-6xl">
-					<Link href="/">Home</Link>
-				</h1>
-				<h1 className="text-3xl select-none sm:text-6xl">
-					<Link href="/connect">Connect</Link>
-				</h1>
-				<h1 className="text-3xl select-none sm:text-6xl">
-					<Link href="/account">Account</Link>
-				</h1>
-				<h1 className="text-3xl select-none sm:text-6xl">
-					<Link href="/api/auth/signin">Login</Link>
-				</h1>
+			<div className="sticky top-0 w-full left-0 bg-inherit flex justify-start bg-indigo-900 p-4   ">
+				{/* <h1 className="text-lg select-none "> */}
+				<div className="mr-10">Dank Site</div>
+				<div className="flex">
+					<Link className="text-white mr-10 no-underline" href="/">
+						Home
+					</Link>
+					<Link className="text-white mr-10 no-underline" href="/connect">
+						Connect
+					</Link>
+
+					{session === null ? (
+						<Link className="text-white mr-10 no-underline" href="/api/auth/signin">
+							Login
+						</Link>
+					) : (
+						<Link className="text-white mr-10 no-underline" href="/account">
+							Account
+						</Link>
+					)}
+				</div>
 
 				<i className="fa-solid fa-user text-xl duration-300 hover:opacity-40 cursor-pointer sm:text-3xl"></i>
 			</div>

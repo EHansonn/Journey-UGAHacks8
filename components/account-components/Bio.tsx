@@ -9,9 +9,9 @@ const Bio: React.FC<Props> = ({ user }) => {
 		<>
 			<div className="text-black flex flex-col h-48 justify-around">
 				{user.bio}
-				<div>Job: placeholder</div>
+				<div>Job: {user.job}</div>
 				<div>Home: placeholder</div>
-				<div>Hobbies: placeholder</div>
+				<div>Hobbies: {user.hobbies.join(', ')}</div>
 			</div>
 		</>
 	);
