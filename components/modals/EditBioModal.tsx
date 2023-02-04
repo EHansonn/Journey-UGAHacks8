@@ -1,7 +1,12 @@
-import React, { useImperativeHandle, useState } from 'react';
+import React, { useEffect, useImperativeHandle, useState } from 'react';
+import { UserGetResponse } from '@/pages/api/user/[id]';
+import { User } from '@/pages/account';
 import { Button, Modal, Form, Input, Radio } from 'antd';
 
-interface Props {}
+interface Props {
+	user: User;
+}
+
 const { TextArea } = Input;
 
 export interface EditBioRef {
@@ -10,9 +15,9 @@ export interface EditBioRef {
 	okay: () => void;
 	cancel: () => void;
 }
-
-const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({}, ref) => {
+const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user }, ref) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
+
 	useImperativeHandle(ref, () => ({
 		visible: isModalOpen,
 		cancel: handleCancel,
@@ -24,8 +29,15 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({}, ref
 		setIsModalOpen(visible);
 	};
 
-	const handleOk = () => {
+	const handleOk = async () => {
 		setIsModalOpen(false);
+		fetch(`http://localhost:3000/api/user/${user.id}`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(''),
+		});
 	};
 
 	const handleCancel = () => {

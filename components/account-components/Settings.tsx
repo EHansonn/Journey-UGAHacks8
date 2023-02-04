@@ -1,10 +1,16 @@
 import { Fragment, useRef, useState } from 'react';
 import { Button, Space } from 'antd';
+import { UserGetResponse } from '@/pages/api/user/[id]';
 import EditBioModal from 'components/modals/EditBioModal';
 import { EditBioRef } from 'components/modals/EditBioModal';
 import NewTripModal, { NewTripRef } from 'components/modals/NewTripModal';
+import { User } from '@/pages/account';
 
-const Settings = () => {
+interface Props {
+	user: User;
+}
+
+const Settings: React.FC<Props> = ({ user }) => {
 	const editBioRef = useRef<EditBioRef>(null);
 	const newTripRef = useRef<NewTripRef>(null);
 
@@ -17,7 +23,7 @@ const Settings = () => {
 				New Trip
 			</Button>
 			<div className="text-black"></div>
-			<EditBioModal ref={editBioRef} />
+			<EditBioModal user={user} ref={editBioRef} />
 			<NewTripModal ref={newTripRef} />
 		</>
 	);
