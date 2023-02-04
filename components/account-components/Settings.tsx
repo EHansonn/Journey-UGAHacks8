@@ -8,32 +8,26 @@ import { User } from '@/pages/account';
 
 interface Props {
 	user: User;
+	hobbies: string[];
+	jobs: string[];
 }
 
-const Settings: React.FC<Props> = ({ user }) => {
+const Settings: React.FC<Props> = ({ user, hobbies, jobs }) => {
 	const editBioRef = useRef<EditBioRef>(null);
 	const newTripRef = useRef<NewTripRef>(null);
 
 	return (
 		<>
-			<Button
-				className="text-black"
-				style={{ background: 'white', borderColor: 'White' }}
-				onClick={() => editBioRef.current?.showModal(true)}
-				type="primary"
-			>
-				Edit Bio
-			</Button>
-			<Button
-				className="text-black"
-				style={{ background: 'white', borderColor: 'White' }}
-				onClick={() => newTripRef.current?.showModal(true)}
-				type="primary"
-			>
-				New Trip
-			</Button>
+			<div className="grid grid-cols-2 grid-rows-2 gap-x-4">
+				<Button onClick={() => editBioRef.current?.showModal(true)} type="primary">
+					Edit Bio
+				</Button>
+				<Button onClick={() => newTripRef.current?.showModal(true)} type="primary">
+					New Trip
+				</Button>
+			</div>
 			<div className="text-black"></div>
-			<EditBioModal user={user} ref={editBioRef} />
+			<EditBioModal user={user} ref={editBioRef} hobbies={hobbies} jobs={jobs} />
 			<NewTripModal ref={newTripRef} />
 		</>
 	);

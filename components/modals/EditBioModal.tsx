@@ -1,13 +1,22 @@
 import React, { useEffect, useImperativeHandle, useState } from 'react';
-import { UserGetResponse } from '@/pages/api/user/[id]';
+import { UserBody, UserGetResponse } from '@/pages/api/user/[id]';
 import { User } from '@/pages/account';
-import { Button, Modal, Form, Input, Radio } from 'antd';
+import { Button, Modal, Form, Input, Radio, Select } from 'antd';
 
 interface Props {
 	user: User;
+	hobbies: string[];
+	jobs: string[];
+}
+
+interface FormFields {
+	bio: string;
+	job: string;
+	hobbies: string[];
 }
 
 const { TextArea } = Input;
+const { Option } = Select;
 
 export interface EditBioRef {
 	visible: boolean;
@@ -15,8 +24,9 @@ export interface EditBioRef {
 	okay: () => void;
 	cancel: () => void;
 }
-const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user }, ref) => {
+const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user, jobs, hobbies }, ref) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [form] = Form.useForm<FormFields>();
 
 	useImperativeHandle(ref, () => ({
 		visible: isModalOpen,
@@ -36,7 +46,7 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user 
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(''),
+			body: JSON.stringify({}),
 		});
 	};
 
@@ -44,32 +54,40 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user 
 		setIsModalOpen(false);
 	};
 
-	const onFinish = (values: any) => {
-		console.log('Success:', values);
-	};
-
 	const onFinishFailed = (errorInfo: any) => {
 		console.log('Failed:', errorInfo);
 	};
+	console.log(jobs);
+	const jobOptions = jobs.map((job) => ({ value: job, label: job }));
+	const hobbyOptions = hobbies.map((hobby) => ({ value: hobby, label: hobby }));
 	return (
 		<>
-			<Modal title="User Settings" open={isModalOpen} onOk={handleOk} footer={null} onCancel={handleCancel}>
+			<Modal title="User Settings" open={isModalOpen} footer={null}>
 				<Form
 					name="basic"
 					labelCol={{ span: 8 }}
 					wrapperCol={{ span: 16 }}
 					style={{ maxWidth: 600 }}
 					initialValues={{ remember: true }}
-					onFinish={onFinish}
+					onFinish={({ bio, hobbies, job }) => {
+						fetch(`http://localhost:3000/api/user/${user.id}`, {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json',
+							},
+							body: JSON.stringify({ bio, hobbies, job, id: user.id } as UserBody),
+						});
+					}}
 					onFinishFailed={onFinishFailed}
 					autoComplete="off"
+					form={form}
 				>
-					<Form.Item label="Bio" name="Bio" rules={[{ required: false, message: 'Please input your Bio!' }]}>
-						<TextArea rows={4} />
+					<Form.Item label="Bio" name="bio" rules={[{ required: false, message: 'Please input your Bio!' }]}>
+						<TextArea rows={4} defaultValue={user.bio} />
 					</Form.Item>
 
-					<Form.Item label="Job" name="Job" rules={[{ required: false, message: 'Please input your job!' }]}>
-						<Input />
+					<Form.Item label="Job" name="job" rules={[{ required: false, message: 'Please input your job!' }]}>
+						<Select defaultValue={user.job} options={jobOptions} />
 					</Form.Item>
 					<Form.Item
 						label="Home"
@@ -80,10 +98,10 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user 
 					</Form.Item>
 					<Form.Item
 						label="Hobbies"
-						name="Hobbies"
+						name="hobbies"
 						rules={[{ required: false, message: 'Please input your hobbies!' }]}
 					>
-						<TextArea rows={4} />
+						<Select mode="multiple" options={hobbyOptions} />
 					</Form.Item>
 
 					<Form.Item wrapperCol={{ offset: 8, span: 16 }}>

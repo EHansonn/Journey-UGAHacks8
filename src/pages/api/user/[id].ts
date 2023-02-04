@@ -2,13 +2,16 @@ import { User } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../../lib/prisma';
 
+export interface UserBody {
+	id: string;
+	bio: string;
+	name: string;
+	// pfp: string;
+	job: string;
+	hobbies: string[];
+}
 interface UserApiRequest extends NextApiRequest {
-	body: {
-		id: string;
-		bio: string;
-		name: string;
-		pfp: string;
-	};
+	body: UserBody;
 	query: {
 		id: string;
 	};
@@ -44,10 +47,12 @@ export default async function handler(req: UserApiRequest, res: NextApiResponse)
 			return res.status(500).json(err);
 		}
 	} else if (req.method === 'POST') {
-		const { id, name, bio, pfp } = req.body;
+		const { id, name, bio, job } = req.body;
 		try {
-			const user = await prisma.user.update({ where: { id }, data: { bio, name, pfp } });
-			return res.status(200).json(user);
+			console.log(req.body);
+			// const user = await prisma.user.update({ where: { id }, data: { bio, name, pfp } });
+			return res.status(200).json({});
+			// return res.status(200).json(user);
 		} catch (err) {
 			return res.status(500).json(err);
 		}

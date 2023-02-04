@@ -11,9 +11,8 @@ datasource db {
 }
 
 model Job {
-  value  String @id @unique
-  userId String
-  users  User[]
+  value String @id @unique
+  users User[]
 }
 
 model Hobby {
@@ -42,8 +41,8 @@ model User {
   sessions      Session[]
   accounts      Account[]
   pictures      Picture[]
-  job           Job             @relation(fields: [jobName], references: [value])
-  jobName       String
+  job           Job?            @relation(fields: [jobName], references: [value])
+  jobName       String?
   hobbies       HobbiesOnUser[]
 }
 
