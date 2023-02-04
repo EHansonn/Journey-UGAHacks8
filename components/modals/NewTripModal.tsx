@@ -25,11 +25,12 @@ import { InboxOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import LocationSearch, { onPlaceSelected } from '../../components/maps/AutoComplete';
 import { fileToBase64 } from '../../lib/file';
 import AutoComplete from '../../components/maps/AutoComplete';
+import { TripBody } from '@/pages/api/trip';
 
 interface FormFields {
-	name: string;
-	title: string;
-	imageBody: UploadFile[];
+	location: string;
+	desc: string;
+	date: string;
 }
 
 interface Props {}
@@ -157,13 +158,24 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({}, ref
 					form={form}
 					name="validate_other"
 					{...formItemLayout}
-					onFinish={async (data) => {
+					onFinish={async ({date,desc,location}) => {
 						// When the form is submitted, convert the images to base64 and trigger the GQL mutation
-						if (imagesBody[0].originFileObj) {
-							try {
-								console.log(data);
+						
+							try  {
+								const promises = imagesBody.map((img) => {
+									 
+									if (img.originFileObj) {
+										return  fileToBase64(img.originFileObj)
+									}
+								})
+								const base64 = (await Promise.all(promises)).filter((img) => {
+									img !== undefined
+
+								})as string []
+
+								//console.log(data);
 								console.log(locationCrap);
-								const imageBody = await fileToBase64(imagesBody[0].originFileObj);
+								// const imageBody = await fileToBase64(imagesBody[0].originFileObj);
 							} catch (e: any) {
 								//setError(e);
 							}
