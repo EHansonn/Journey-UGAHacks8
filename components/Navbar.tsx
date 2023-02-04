@@ -12,9 +12,6 @@ const Navbar = () => {
 					<Link className="text-white mr-10 no-underline" href="/">
 						Home
 					</Link>
-					<Link className="text-white mr-10 no-underline" href="/connect">
-						Connect
-					</Link>
 
 					{session === null ? (
 						<Link className="text-white mr-10 no-underline" href="/api/auth/signin">
@@ -22,6 +19,9 @@ const Navbar = () => {
 						</Link>
 					) : (
 						<>
+							<Link className="text-white mr-10 no-underline" href="/connect">
+								Connect
+							</Link>
 							<Link className="text-white mr-10 no-underline" href="/account">
 								Account
 							</Link>
