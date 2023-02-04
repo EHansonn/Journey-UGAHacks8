@@ -61,6 +61,8 @@ model Trip {
   owner    User      @relation(fields: [userId], references: [id])
   userId   String
   location String
+  lat      Float
+  lon      Float
   date     DateTime
   desc     String
   pictures Picture[]

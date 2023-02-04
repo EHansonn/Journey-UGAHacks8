@@ -8,6 +8,8 @@ export interface TripBody {
 	location: string;
 	desc: string;
 	date: string;
+	lat: number;
+	lon: number;
 	urls: { name: string; body: string }[];
 }
 interface UserApiRequest extends NextApiRequest {
@@ -17,16 +19,14 @@ interface UserApiRequest extends NextApiRequest {
 	};
 }
 
-export type UserPostResponse = User | { [key: string]: any };
-
 export default async function handler(req: UserApiRequest, res: NextApiResponse) {
 	// prisma.user.ge
 	if (req.method === 'POST') {
-		const { userId, location, desc, date, urls } = req.body;
+		const { userId, location, desc, lat, lon, date, urls } = req.body;
 		try {
 			const result = await uploadImages(urls);
 			const trip = await prisma.trip.create({
-				data: { userId, location, desc, date },
+				data: { userId, location, desc, date, lat, lon },
 			});
 			const pictures = urls.map((url) => ({
 				tripId: trip.id,

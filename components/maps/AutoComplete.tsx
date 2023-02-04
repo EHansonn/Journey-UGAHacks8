@@ -28,6 +28,7 @@ const LocationSearch: React.FC<Props> = (props) => {
 		onPlaceSelected.current = (place) => {
 			//console.log(place);
 			//@ts-ignore
+			//console.log();
 			props.getThing(place);
 			toggleState();
 		};

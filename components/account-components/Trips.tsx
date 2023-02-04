@@ -5,9 +5,13 @@ interface Trips {
 }
 const Trips: React.FC<Trips> = ({ trips }) => {
 	return (
-		<div>
-			{trips.map((trip) => (
-				<div>{trip.location}</div>
+		<div className="flex-col flex">
+			{trips.map((trip, i) => (
+				<div key={i} className="flex">
+					<div>{trip.location}</div>
+					<div>{trip.date}</div>
+					<div>{trip.desc}</div>
+				</div>
 			))}
 		</div>
 	);

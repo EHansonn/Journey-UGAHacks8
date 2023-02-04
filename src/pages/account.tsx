@@ -22,6 +22,8 @@ export type Trip = {
 	desc: string;
 	location: string;
 	date: string;
+	lat: number;
+	lon: number;
 };
 interface Props {
 	user?: User;
@@ -83,7 +85,7 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 			</div>
 			<div className="bg-indigo-800 h-full w-2/3">
 				{/* <LocationSearch /> */}
-				{/* <RenderMap />; */}
+				<RenderMap trips={trips} />;
 			</div>
 		</div>
 	);
@@ -115,6 +117,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req, res }
 						date: trip.date.getFullYear().toString(),
 						desc: trip.desc,
 						location: trip.location,
+						lat: trip.lat,
+						lon: trip.lon,
 					})),
 				},
 			};
