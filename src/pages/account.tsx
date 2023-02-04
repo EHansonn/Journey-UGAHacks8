@@ -3,7 +3,22 @@ import Image from 'next/image';
 import { Inter } from '@next/font/google';
 import ProfileSidebar from 'components/ProfileSidebar';
 import { UserOutlined } from '@ant-design/icons';
-const Account = () => {
+import { useSession } from 'next-auth/react';
+import { NextPage } from 'next';
+import { useEffect } from 'react';
+type Props = {};
+
+const Account: NextPage<Props> = ({}: Props) => {
+	const { data: session } = useSession();
+	useEffect(() => {
+		fetch(`http://localhost:3000/api/user/${session?.user.id}`)
+			.then(async (data) => {
+				console.log(await data.json());
+			})
+			.catch((err) => {
+				console.error(err);
+			});
+	}, [session?.user.id]);
 	return (
 		<div className="flex flex-row h-full  ">
 			<div className="bg-red-100 flex content-center flex-col justify-center h-full items-center w-1/3    ">
