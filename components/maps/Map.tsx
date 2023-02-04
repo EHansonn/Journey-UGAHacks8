@@ -1,28 +1,43 @@
 import React from 'react';
-import { GoogleMap, LoadScript, useJsApiLoader } from '@react-google-maps/api';
+import { Circle, GoogleMap, LoadScript, MarkerF, Marker, useJsApiLoader } from '@react-google-maps/api';
+import { Trip } from '@/pages/account';
 
 const containerStyle = {
 	width: '800px',
 	height: '800px',
 };
 
-const center = {
-	lat: 33.857007,
-	lng: -83.390678,
-};
+interface Trips {
+	trips: Trip[];
+}
 
-const Map: React.FC = () => {
+const Map: React.FC<Trips> = ({ trips }) => {
 	const { isLoaded, loadError } = useJsApiLoader({
 		googleMapsApiKey: 'AIzaSyBmL0gukE5saXobjQNHTXDgKwUegl4ikMU',
 		libraries: ['drawing', 'geometry', 'localContext', 'places', 'visualization'],
 	});
 
+	const onLoad = (marker: any) => {
+		console.log('marker: ', marker);
+	};
+
+	const center = {
+		lat: 0,
+		lng: -180,
+	};
+
+	const position = {
+		lat: 37.772,
+		lng: -122.214,
+	};
+
 	if (isLoaded) {
 		return (
 			// <LoadScript googleMapsApiKey="AIzaSyBmL0gukE5saXobjQNHTXDgKwUegl4ikMU">
-			<GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
-				{/* Child components, such as markers, info windows, etc. */}
-				<></>
+			<GoogleMap id="circle-example" mapContainerStyle={containerStyle} center={center} zoom={1}>
+				{trips.map((trip, i) => (
+					<MarkerF key={i} onLoad={onLoad} position={{ lat: trip.lat, lng: trip.lon }} />
+				))}
 			</GoogleMap>
 			// </LoadScript>
 		);

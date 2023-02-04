@@ -30,6 +30,8 @@ import { User } from '@/pages/account';
 
 interface FormFields {
 	location: string;
+	lat: number;
+	lon: number;
 	desc: string;
 	date: string;
 }
@@ -54,34 +56,6 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({ user 
 	const [previewTitle, setPreviewTitle] = useState('');
 	const [fileList, setFileList] = useState<UploadFile[]>([]);
 
-	// const { RangePicker } = DatePicker;
-
-	// const handlePreview = async (file: UploadFile) => {
-	// 	if (!file.url && !file.preview) {
-	// 		file.preview = await getBase64(file.originFileObj as RcFile);
-	// 	}
-
-	// 	setPreviewImage(file.url || (file.preview as string));
-	// 	setPreviewOpen(true);
-	// 	setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
-	// };
-
-	// const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => setFileList(newFileList);
-
-	// const uploadButton = (
-	// 	<div>
-	// 		<PlusOutlined />
-	// 		<div style={{ marginTop: 8 }}>Upload</div>
-	// 	</div>
-	// );
-
-	// const onFinish = (values: any) => {
-	// 	console.log('Success:', values);
-	// };
-
-	// const onFinishFailed = (errorInfo: any) => {
-	// 	console.log('Failed:', errorInfo);
-	// };
 	const [imagesBody, setImagesBody] = useState<UploadFile[]>([]);
 	const [form] = Form.useForm<FormFields>();
 	const onFileListChange: UploadProps['onChange'] = ({ fileList: files }) => {
@@ -140,7 +114,7 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({ user 
 	const getThing = (props: google.maps.places.PlaceResult) => {
 		//console.log('kekw');
 		console.log(props);
-
+		console.log(props.geometry?.location?.lat());
 		setLocationCRap(props);
 	};
 	// const onChange = (value, dateString) => {
@@ -162,7 +136,7 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({ user 
 					form={form}
 					name="validate_other"
 					{...formItemLayout}
-					onFinish={async ({ date, desc, location }) => {
+					onFinish={async ({ date, desc, location, lat, lon }) => {
 						// When the form is submitted, convert the images to base64 and trigger the GQL mutation
 
 						try {
@@ -183,6 +157,8 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({ user 
 								body: JSON.stringify({
 									userId: user.id,
 									location: locationCrap?.formatted_address ?? '',
+									lat: locationCrap?.geometry?.location?.lat(),
+									lon: locationCrap?.geometry?.location?.lng(),
 									desc,
 									date,
 								} as TripBody),
