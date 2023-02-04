@@ -24,6 +24,7 @@ export type Trip = {
 	date: string;
 	lat: number;
 	lon: number;
+	urls: string[];
 };
 interface Props {
 	user?: User;
@@ -42,6 +43,7 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 		return <div>Oh no no user!</div>;
 	}
 	console.log(user);
+	console.log(trips);
 	return (
 		<div className="flex flex-row h-full sticky  space-x-3 ">
 			<div className="bg-blue-900 rounded-md  flex content-center flex-col justify-center h-full items-center w-1/3    ">
@@ -97,7 +99,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req, res }
 		const u = prisma?.user.findFirst({ where: { id: session.user.id }, include: { hobbies: true } });
 		const j = prisma?.job.findMany({});
 		const h = prisma?.hobby.findMany({});
-		const t = prisma?.trip.findMany({ where: { userId: session.user.id } });
+		const t = prisma?.trip.findMany({ where: { userId: session.user.id }, include: { pictures: true } });
 
 		const [user, jobs, hobbies, trips] = await Promise.all([u, j, h, t]);
 		if (user && jobs && hobbies && trips) {
@@ -114,11 +116,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req, res }
 					jobs: jobs.map((job) => job.value),
 					hobbies: hobbies.map((hobby) => hobby.value),
 					trips: trips.map((trip) => ({
-						date: trip.date.getFullYear().toString(),
+						date: trip.date.toLocaleDateString('en-us'),
 						desc: trip.desc,
 						location: trip.location,
 						lat: trip.lat,
 						lon: trip.lon,
+						urls: trip.pictures.map((pic) => pic.url),
 					})),
 				},
 			};
