@@ -1,4 +1,5 @@
 import { User } from '@prisma/client';
+import { uploadImages } from 'lib/aws';
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../lib/prisma';
 
@@ -7,6 +8,7 @@ export interface TripBody {
 	location: string;
 	desc: string;
 	date: string;
+	urls: { name: string; body: string }[];
 }
 interface UserApiRequest extends NextApiRequest {
 	body: TripBody;
@@ -20,16 +22,31 @@ export type UserPostResponse = User | { [key: string]: any };
 export default async function handler(req: UserApiRequest, res: NextApiResponse) {
 	// prisma.user.ge
 	if (req.method === 'POST') {
-		const { userId, location, desc, date } = req.body;
+		const { userId, location, desc, date, urls } = req.body;
 		try {
-			console.log(req.body);
-			const user = await prisma.trip.create({
+			const result = await uploadImages(urls);
+			const trip = await prisma.trip.create({
 				data: { userId, location, desc, date },
 			});
-			return res.status(200).json(user);
+			const pictures = urls.map((url) => ({
+				tripId: trip.id,
+				desc: '',
+				url: `https://uga-hacks-8.s3-us-east-1.amazonaws.com/${url.name}`,
+				userId,
+			}));
+			await prisma.picture.createMany({ data: pictures });
+			return res.status(200).json(trip);
 		} catch (err) {
 			console.log(err);
 			return res.status(500).json(err);
 		}
 	}
 }
+
+export const config = {
+	api: {
+		bodyParser: {
+			sizeLimit: '50mb', // Set desired value here
+		},
+	},
+};

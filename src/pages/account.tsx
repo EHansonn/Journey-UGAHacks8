@@ -43,7 +43,7 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 	return (
 		<div className="flex flex-row h-full  ">
 			<div className="bg-sky-800 flex content-center flex-col justify-center h-full items-center w-1/3    ">
-				<div className="bg-slate-500 rounded-full h-[100px] w-[100px]"></div>
+				<img src={user.pfp} className="mt-3 bg-slate-500 rounded-full h-[100px] w-[100px]" />
 				<div className="text-white text-2xl mb-3">{user.name}</div>
 				<div className="flex justify-around w-full text-white mb-4">
 					<div
@@ -104,7 +104,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req, res }
 					user: {
 						id: user.id,
 						bio: user.bio ?? '',
-						pfp: user.pfp ?? '',
+						pfp: user.image ?? '',
 						name: user.name ?? '',
 						job: user.jobName ?? '',
 						hobbies: user.hobbies.map((hobby) => hobby.hobbyName),
