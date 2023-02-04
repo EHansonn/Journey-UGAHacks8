@@ -20,7 +20,7 @@ const Account = () => {
 	}, [session?.user.id]);
 	return (
 		<div className="flex flex-row h-full  ">
-			<div className="bg-red-100 flex content-center flex-col justify-center h-full items-center w-1/3    ">
+			<div className="bg-sky-800 flex content-center flex-col justify-center h-full items-center w-1/3    ">
 				<div className="bg-slate-500 rounded-full h-[100px] w-[100px]"></div>
 				<div className="text-black">Name</div>
 				<div className="flex justify-around w-full text-black ">
@@ -38,9 +38,9 @@ const Account = () => {
 				{displayedInfo === 'Trips' && <Trips></Trips>}
 				{displayedInfo === 'Settings' && <Settings></Settings>}
 			</div>
-			<div className="bg-red-200 h-full w-2/3">
-				<LocationSearch />
-				<RenderMap />;
+			<div className="bg-indigo-800 h-full w-2/3">
+				{/* <LocationSearch />
+				<RenderMap />; */}
 			</div>
 		</div>
 	);
