@@ -3,7 +3,7 @@ import Link from 'next/link';
 const Navbar = () => {
 	return (
 		<>
-			<div className="sticky top-0 w-full left-0 bg-inherit flex justify-content: space-around; justify-between bg-sky-500/100 p-4 border-b border-solid border-white  ">
+			<div className="sticky top-0 w-full left-0 bg-inherit flex justify-content: space-around; justify-around bg-indigo-900 p-4 border-b border-solid border-white  ">
 				<h1 className="text-3xl select-none sm:text-6xl">
 					<Link href="/">Home</Link>
 				</h1>
