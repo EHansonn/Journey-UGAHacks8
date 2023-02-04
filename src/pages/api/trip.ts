@@ -31,7 +31,7 @@ export default async function handler(req: UserApiRequest, res: NextApiResponse)
 			const pictures = urls.map((url) => ({
 				tripId: trip.id,
 				desc: '',
-				url: `https://uga-hacks-8.s3-us-east-1.amazonaws.com/${url.name}`,
+				url: `https://uga-hacks-8.s3.us-east-1.amazonaws.com/${url.name}`,
 				userId,
 			}));
 			await prisma.picture.createMany({ data: pictures });
