@@ -8,6 +8,8 @@ import LocationSearch from 'components/maps/AutoComplete';
 import { GetServerSideProps, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
+import { MinusOutlined, PlusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { FriendBody } from '../api/friend';
 
 export type User = {
 	id: string;
@@ -19,6 +21,8 @@ export type User = {
 	home: string;
 	homeLat: number;
 	homeLon: number;
+	friends: { name: string; image: string; id: string }[];
+	friendedBy: { name: string; image: string; id: string }[];
 };
 export type Trip = {
 	desc: string;
@@ -40,6 +44,8 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 	const [displayedInfo, selectDisplayedInfo] = useState<'Bio' | 'Trips' | 'Settings'>('Bio');
 	const { data: session } = useSession();
 	const isAccount = session?.user.id === user?.id;
+	console.log(user);
+	const friendIds = user?.friendedBy.map((friend) => friend.id);
 	if (error) {
 		return <div>Error go brrrrrr {error}</div>;
 	}
@@ -51,6 +57,43 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 			<div className="overflow-y-scroll bg-blue-1000 rounded-md  flex content-center flex5 flex-col   items-center w-1/3    ">
 				<div className="relative">
 					<img src={user.pfp} className="mt-3 bg-slate-500 rounded-full h-[100px] w-[100px]" />
+					{isAccount === false ? (
+						<div
+							onClick={() => {
+								console.log('click');
+								if (friendIds?.includes(session?.user.id ?? '')) {
+									fetch('http://localhost:3000/api/friend', {
+										method: 'POST',
+										headers: {
+											'Content-Type': 'application/json',
+										},
+										body: JSON.stringify({
+											userId: session?.user.id ?? '',
+											friendId: user.id,
+											mode: 'unfriend',
+										} as FriendBody),
+									});
+								} else {
+									fetch('http://localhost:3000/api/friend', {
+										method: 'POST',
+										headers: {
+											'Content-Type': 'application/json',
+										},
+										body: JSON.stringify({
+											userId: session?.user.id ?? '',
+											friendId: user.id,
+											mode: 'friend',
+										} as FriendBody),
+									});
+								}
+							}}
+							className="absolute bottom-1 right-1 bg-black/50 rounded-full text-white hover:text-green-500 active:scale-125 transition text-lg leading-none p-1"
+						>
+							{friendIds?.includes(session?.user.id ?? '') ? <MinusOutlined /> : <PlusOutlined />}
+						</div>
+					) : (
+						''
+					)}
 				</div>
 				<div className="text-white text-2xl  mb-3">{user.name}</div>
 				<div className="flex justify-around w-full min-h-[35px] items-center bg-blue-800 text- mb-4 ">
@@ -109,12 +152,15 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req, res, 
 	}
 
 	if (userId) {
-		const u = prisma?.user.findFirst({ where: { id: userId }, include: { hobbies: true } });
+		const u = prisma?.user.findFirst({
+			where: { id: userId },
+			include: { hobbies: true, friended: true, friendedBy: true },
+		});
 		const j = prisma?.job.findMany({});
 		const h = prisma?.hobby.findMany({});
 		const t = prisma?.trip.findMany({ where: { userId: userId }, include: { pictures: true } });
-
 		const [user, jobs, hobbies, trips] = await Promise.all([u, j, h, t]);
+		console.log(user);
 		if (user && jobs && hobbies && trips) {
 			return {
 				props: {
@@ -128,6 +174,17 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req, res, 
 						home: user.home ?? '',
 						homeLat: user.homeLat ?? 0,
 						homeLon: user.homeLon ?? 0,
+						friends: user.friended.map((friend) => ({
+							name: friend.name ?? '',
+							id: friend.id,
+							image: friend.image ?? '',
+						})),
+						friendedBy:
+							user.friendedBy.map((friend) => ({
+								name: friend.name ?? '',
+								id: friend.id,
+								image: friend.image ?? '',
+							})) ?? [],
 					},
 					jobs: jobs.map((job) => job.value),
 					hobbies: hobbies.map((hobby) => hobby.value),
