@@ -21,8 +21,8 @@ const Map: React.FC<Props> = ({ trips, user }) => {
 	};
 
 	const center = {
-		lat: 0,
-		lng: -180,
+		lat: 30,
+		lng: 30,
 	};
 
 	const position = {
@@ -43,7 +43,7 @@ const Map: React.FC<Props> = ({ trips, user }) => {
 					id="circle-example"
 					// mapContainerStyle={containerStyle}
 					center={center}
-					zoom={1.5}
+					zoom={2.5}
 				>
 					<MarkerF
 						onLoad={onLoad}

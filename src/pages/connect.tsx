@@ -9,41 +9,54 @@ import Link from 'next/link';
 import { User } from '@prisma/client';
 import { useRouter } from 'next/router';
 import Trips from '../../components/account-components/Trips';
+import { useState } from 'react';
 
 interface Props {
-	users: User[];
+	users: {
+		[key: string]: any[];
+	};
 	currentUser: User;
 }
 
 const Connect: React.FC<Props> = ({ users, currentUser }) => {
 	const router = useRouter();
+
+	const [userLocations, setUserLocations] = useState([]);
+	console.log('tessssssssssssssssssssss');
+	console.log(users);
 	return (
 		<div className="flex flex-row">
-			<div className="flex-col flex  ">
+			<div className=" flex  ">
 				{/* <Space direction="vertical" size="middle" style={{ display: 'flex' }}> */}
-				{users.map((user, i) => (
-					<Card key={i} title={user.name} className="mb-3" size="small">
-						<div className="flex ">
-							<img
-								src={user.image ?? ''}
-								className=" bg-slate-500 rounded-full  h-[100px] w-[100px] mr-3"
-							/>
-							<div className="flex flex-col justify-evenly">
-								<div>{user.bio}</div>
-								<div className="">
-									Hobbies: {user.hobbies.map((hobby, i) => hobby.hobbyName).join(', ')}
-								</div>
-								<div className="">Job: {user.jobName}</div>
-								<Button
-									className="w-32"
-									onClick={() => {
-										router.push(`/users/${user.id}`);
-									}}
-									type="primary"
-								>
-									Connect
-								</Button>
-							</div>
+				{Object.entries(users).map(([location, user], i) => (
+					<Card title={location}>
+						<div className="flex-col flex">
+							{user.map((u) => (
+								<Card key={i} title={u.name} className="mb-3" size="small">
+									<div className="flex ">
+										<img
+											src={u.image ?? ''}
+											className=" bg-slate-500 rounded-full  h-[100px] w-[100px] mr-3"
+										/>
+										<div className="flex flex-col justify-evenly">
+											<div>{u.bio}</div>
+											<div className="">
+												Hobbies: {u.hobbies.map((hobby, i) => hobby.hobbyName).join(', ')}
+											</div>
+											<div className="">Job: {u.jobName}</div>
+											<Button
+												className="w-32"
+												onClick={() => {
+													router.push(`/users/${u.id}`);
+												}}
+												type="primary"
+											>
+												Connect
+											</Button>
+										</div>
+									</div>
+								</Card>
+							))}
 						</div>
 					</Card>
 				))}
@@ -84,18 +97,24 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req, res }
 
 		if (users && currentUser) {
 			const now = new Date(Date.now());
-			const tripLocations: string[] = [];
+			const tripLocations: {
+				[key: string]: any[];
+			} = {};
 			currentUser?.trips.forEach((trip) => {
 				if (trip.date > now) {
-					tripLocations.push(trip.location);
+					tripLocations[trip.location] = [];
 				}
 			});
 			currentUser.trips = [];
 			console.log('potato');
-			const filtered = users.filter((user) => tripLocations.includes(user.home ?? ''));
+			const filtered = users.forEach((user) => {
+				if (tripLocations[user.home ?? '']) {
+					tripLocations[user.home ?? ''].push(user);
+				}
+			});
 			return {
 				props: {
-					users: filtered,
+					users: tripLocations,
 					currentUser,
 				},
 			};
