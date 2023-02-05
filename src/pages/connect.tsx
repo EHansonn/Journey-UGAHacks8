@@ -20,10 +20,10 @@ const Connect: React.FC<Props> = ({ users, currentUser }) => {
 	console.log(users);
 	return (
 		<div className="flex flex-row">
-			<div className="flex-col flex ">
+			<div className="flex-col flex  ">
 				{/* <Space direction="vertical" size="middle" style={{ display: 'flex' }}> */}
 				{users.map((user, i) => (
-					<Card key={i} title={user.name} className="" size="small">
+					<Card key={i} title={user.name} className="mb-3" size="small">
 						<div className="flex ">
 							<img
 								src={user.image ?? ''}
