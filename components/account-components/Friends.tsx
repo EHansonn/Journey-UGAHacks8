@@ -17,7 +17,7 @@ const Friends: React.FC<Props> = ({ user, changeHandler }) => {
 	const router = useRouter();
 	return (
 		<>
-			<div className="">
+			<div className="flex gap-2 flex-wrap justify-center ">
 				{user.friends.map((u, i) => (
 					<Card key={i} title={u.name} className="mb-3" size="small">
 						<div className="flex ">
