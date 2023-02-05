@@ -11,6 +11,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]';
 
 export type User = {
+	home: ReactNode;
 	id: string;
 	bio: string;
 	pfp: string;

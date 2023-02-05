@@ -16,6 +16,7 @@ export type User = {
 	name: string;
 	job: string;
 	hobbies: string[];
+	home: string;
 };
 export type Trip = {
 	desc: string;
@@ -125,6 +126,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req, res, 
 						name: user.name ?? '',
 						job: user.jobName ?? '',
 						hobbies: user.hobbies.map((hobby) => hobby.hobbyName),
+						home: user.home ?? '',
 					},
 					jobs: jobs.map((job) => job.value),
 					hobbies: hobbies.map((hobby) => hobby.value),

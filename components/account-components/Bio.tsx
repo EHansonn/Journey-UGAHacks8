@@ -11,10 +11,10 @@ const Bio: React.FC<Props> = ({ user }) => {
 				<div className="col-span-2 mb-3">{user.bio}</div>
 				<div className="justify-self-center w-20 text-end mb-2">Job:</div>
 				<div>{user.job}</div>
-				<div className="justify-self-center w-20 text-end mb-2">Home:</div>
-				<div>Tamriel</div>
 				<div className="justify-self-center w-20 text-end mb-2">Hobbies:</div>
 				<div>{user.hobbies.join(', ')}</div>
+				<div className="justify-self-center w-20 text-end mb-2">Home:</div>
+				<div>{user.home}</div>
 			</div>
 		</>
 	);
