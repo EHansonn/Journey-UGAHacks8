@@ -22,7 +22,9 @@ export type User = {
 	home: string;
 	homeLat: number;
 	homeLon: number;
-	friends: { name: string; image: string; id: string }[];
+	friends: {
+		bio: ReactNode; name: string; image: string; id: string
+}[];
 	friendedBy: { name: string; image: string; id: string }[];
 };
 export type Trip = {
@@ -43,6 +45,12 @@ interface Props {
 
 const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 	const [displayedInfo, selectDisplayedInfo] = useState<'Bio' | 'Trips' | 'Settings' | 'Friends'>('Bio');
+
+	const changeHandler = () => {
+		selectDisplayedInfo('Bio');
+	};
+
+
 	const { data: session } = useSession();
 	const isAccount = session?.user.id === user?.id;
 	console.log(user);
@@ -148,7 +156,7 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 				{displayedInfo === 'Bio' && <Bio user={user} />}
 				{displayedInfo === 'Trips' && <Trips trips={trips} />}
 				{displayedInfo === 'Settings' && isAccount && <Settings user={user} jobs={jobs} hobbies={hobbies} />}
-				{displayedInfo === 'Friends' && isAccount && <Friends user={user} />}
+				{displayedInfo === 'Friends' && isAccount && <Friends changeHandler={changeHandler} user={user} />}
 			</div>
 			<div className="bg-indigo-800  w-full rounded-md flex h-full w-2/3 overflow-x-hidden">
 				{/* <LocationSearch /> */}

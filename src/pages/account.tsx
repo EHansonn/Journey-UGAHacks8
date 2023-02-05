@@ -37,8 +37,13 @@ interface Props {
 	error?: string;
 }
 
+
+
 const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 	const [displayedInfo, selectDisplayedInfo] = useState<'Bio' | 'Trips' | 'Settings'>('Bio');
+
+
+
 	if (error) {
 		return <div>Error go brrrrrr {error}</div>;
 	}
