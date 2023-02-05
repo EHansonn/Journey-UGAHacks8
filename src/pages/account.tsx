@@ -88,7 +88,7 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 				{displayedInfo === 'Trips' && <Trips trips={trips} />}
 				{displayedInfo === 'Settings' && <Settings user={user} jobs={jobs} hobbies={hobbies} />}
 			</div>
-			<div className="bg-indigo-800  w-full rounded-md flex h-full w-2/3">
+			<div className="bg-indigo-800 rounded-md flex h-full w-2/3">
 				{/* <LocationSearch /> */}
 				<RenderMap trips={trips} />;
 			</div>

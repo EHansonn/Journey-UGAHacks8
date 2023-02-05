@@ -49,7 +49,7 @@ const Trips: React.FC<Trips> = ({ trips }) => {
 	console.log(tabs);
 	return (
 		<div className="flex-col flex  w-full">
-			<Collapse ghost>
+			<Collapse defaultActiveKey={['2023', '2022', '2021', '2020', 'Upcoming']} ghost>
 				{Object.entries(tabs)
 					.reverse()
 					.map(([year, months]) => (

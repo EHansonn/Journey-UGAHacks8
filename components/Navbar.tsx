@@ -7,7 +7,7 @@ const Navbar = () => {
 		<>
 			<div className="top-0 w-full left-0 bg-inherit flex justify-start bg-indigo-900 p-4   ">
 				{/* <h1 className="text-lg select-none "> */}
-				<div className="mr-10">Traveligram</div>
+				<div className="mr-10">Journey</div>
 				<div className="flex">
 					<Link className="text-white mr-10 no-underline transition duration-300 hover:scale-125" href="/">
 						Home
