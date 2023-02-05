@@ -29,14 +29,23 @@ const Trips: React.FC<Trips> = ({ trips }) => {
 			year: fields[2],
 		};
 	};
-
-	const tabs = trips.reduce<{ [key: string]: { [key: string]: Trip[] } }>((prev, curr) => {
-		const date = dateFields(curr.date);
-		if (!prev[date.year]) prev[date.year] = {};
-		if (!prev[date.year][date.month]) prev[date.year][date.month] = [];
-		prev[date.year][date.month].push(curr);
-		return prev;
-	}, {});
+	const now = dateFields(new Date(Date.now()).toLocaleDateString('en-us'));
+	console.log(now);
+	const tabs = trips.reduce<{ [key: string]: { [key: string]: Trip[] } }>(
+		(prev, curr) => {
+			const date = dateFields(curr.date);
+			if (date.year >= now.year && date.month >= now.month && date.day > now.day) {
+				if (!prev['Upcoming'][date.year]) prev['Upcoming'][date.year] = [];
+				prev['Upcoming'][date.year].push(curr);
+			} else {
+				if (!prev[date.year]) prev[date.year] = {};
+				if (!prev[date.year][date.month]) prev[date.year][date.month] = [];
+				prev[date.year][date.month].push(curr);
+			}
+			return prev;
+		},
+		{ Upcoming: {} },
+	);
 	console.log(tabs);
 	return (
 		<div className="flex-col flex  w-full">
@@ -49,7 +58,7 @@ const Trips: React.FC<Trips> = ({ trips }) => {
 								{Object.entries(months)
 									.reverse()
 									.map(([month, trips]) => (
-										<Panel header={monthToString[parseInt(month) - 1]} key={month}>
+										<Panel header={monthToString[parseInt(month) - 1] ?? month} key={month}>
 											{trips.map((trip) => (
 												//= <div className="text-white">
 												// 	<div>{trip.location}</div>
@@ -60,7 +69,7 @@ const Trips: React.FC<Trips> = ({ trips }) => {
 													<div>{trip.desc}</div>
 													<ul className="flex flex-wrap list-none m-0 p-0">
 														{trip.urls.map((url) => (
-															<li className="h-[20vh] flex-grow m-1">
+															<li className="h-[20vh] flex-grow m-1 overflow-x-hidden">
 																<img
 																	className="max-h-full min-w-full  object-cover align-bottom"
 																	src={url}
