@@ -8,6 +8,7 @@ export const authOptions: NextAuthOptions = {
 	session: {
 		strategy: 'database',
 	},
+	secret: process.env.SECRET,
 	providers: [
 		GoogleProvider({
 			clientId: process.env.GOOGLE_CLIENT_ID,
