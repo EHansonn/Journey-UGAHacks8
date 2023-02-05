@@ -47,6 +47,8 @@ model User {
   home          String?
   homeLat       Float?
   homeLon       Float?
+  friended      User[]          @relation("UserFriends")
+  friendedBy    User[]          @relation("UserFriends")
 }
 
 model Picture {

@@ -45,8 +45,6 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 	if (!user || !jobs || !hobbies || !trips) {
 		return <div>Oh no no user!</div>;
 	}
-	console.log(user);
-	console.log(trips);
 	return (
 		<div className="flex flex-row bg-blue-900 rounded-md h-full  space-x-3 ">
 			<div className="bg-blue-900 rounded-md  flex content-center flex5 flex-col   items-center w-1/3    ">

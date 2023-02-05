@@ -8,7 +8,6 @@ interface Props {
 }
 const Layout: NextPage<Props> = ({ children }) => {
 	const { data: session, status } = useSession();
-	console.log(session);
 	return (
 		<div className="flex flex-col  h-screen relative bg-slate-900 text-white">
 			<Navbar></Navbar>

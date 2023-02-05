@@ -37,7 +37,6 @@ const Trips: React.FC<Trips> = ({ trips }) => {
 		prev[date.year][date.month].push(curr);
 		return prev;
 	}, {});
-	console.log(tabs);
 	return (
 		<div className="flex-col flex max-w-full  w-full">
 			<Collapse ghost>
