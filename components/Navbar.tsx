@@ -9,23 +9,35 @@ const Navbar = () => {
 				{/* <h1 className="text-lg select-none "> */}
 				<div className="mr-10">Website name</div>
 				<div className="flex">
-					<Link className="text-white mr-10 no-underline" href="/">
+					<Link className="text-white mr-10 no-underline transition duration-300 hover:scale-125" href="/">
 						Home
 					</Link>
 
 					{session === null ? (
-						<Link className="text-white mr-10 no-underline" href="/api/auth/signin">
+						<Link
+							className="text-white mr-10 no-underline transition duration-300 hover:scale-125"
+							href="/api/auth/signin"
+						>
 							Login
 						</Link>
 					) : (
 						<>
-							<Link className="text-white mr-10 no-underline" href="/connect">
+							<Link
+								className="text-white mr-10 no-underline transition duration-300 hover:scale-125"
+								href="/connect"
+							>
 								Connect
 							</Link>
-							<Link className="text-white mr-10 no-underline" href="/account">
-								Account
+							<Link
+								className="text-white mr-10 no-underline transition duration-300 hover:scale-125"
+								href={`/users/${session?.user.id}`}
+							>
+								Your Account
 							</Link>
-							<Link className="text-white mr-10 no-underline" href="/api/auth/signout">
+							<Link
+								className="text-white mr-10 no-underline transition duration-300 hover:scale-125"
+								href="/api/auth/signout "
+							>
 								Signout
 							</Link>
 						</>

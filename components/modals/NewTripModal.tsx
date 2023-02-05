@@ -166,6 +166,7 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({ user 
 						} catch (e: any) {
 							//setError(e);
 						}
+						//handleOk();
 					}}
 				>
 					<Form.Item
@@ -189,7 +190,7 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({ user 
 					>
 						<TextArea rows={4} />
 					</Form.Item>
-					<Form.Item>
+					<Form.Item className="justify-center items-cente flex">
 						<Upload
 							name="picture"
 							fileList={imagesBody}
@@ -198,12 +199,17 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({ user 
 							maxCount={10}
 							multiple={false}
 						>
-							<Button icon={<UploadOutlined />}>Click to Upload</Button>
+							<Button className="" icon={<UploadOutlined />}>
+								Click to Upload Image
+							</Button>
 						</Upload>
 					</Form.Item>
-					<Form.Item wrapperCol={{ span: 12, offset: 6 }}>
-						<Button className="shadow shadow-md shadow-2xl" htmlType="submit">
-							Submit
+					<Form.Item className="justify-center flex items-center">
+						<Button
+							className="justify-center items-center flex shadow shadow-md shadow-2xl"
+							htmlType="submit"
+						>
+							Upload Trip
 						</Button>
 					</Form.Item>
 				</Form>

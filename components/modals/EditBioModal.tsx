@@ -63,7 +63,7 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user,
 	const hobbyOptions = hobbies.map((hobby) => ({ value: hobby, label: hobby }));
 	return (
 		<>
-			<Modal title="User Settings" open={isModalOpen} footer={null}>
+			<Modal title="User Settings" onCancel={handleCancel} open={isModalOpen} footer={null}>
 				<Form
 					name="basic"
 					labelCol={{ span: 8 }}

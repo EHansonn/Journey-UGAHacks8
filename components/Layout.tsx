@@ -10,7 +10,7 @@ const Layout: NextPage<Props> = ({ children }) => {
 	const { data: session, status } = useSession();
 	console.log(session);
 	return (
-		<div className="flex flex-col min-h-screen relative bg-slate-900 text-white">
+		<div className="flex flex-col  h-screen relative bg-slate-900 text-white">
 			<Navbar></Navbar>
 			<main className="flex-1 flex flex-col p-4">{children}</main>
 			<div className="text-blue-600"></div>

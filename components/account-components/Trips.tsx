@@ -39,19 +39,19 @@ const Trips: React.FC<Trips> = ({ trips }) => {
 	}, {});
 	console.log(tabs);
 	return (
-		<div className="flex-col flex w-full">
+		<div className="flex-col flex max-w-full  w-full">
 			<Collapse ghost>
 				{Object.entries(tabs)
 					.reverse()
 					.map(([year, months]) => (
-						<Panel header={year} key={year}>
+						<Panel className="bg-blue-100 rounded-xl w-full" header={year} key={year}>
 							<Collapse ghost>
 								{Object.entries(months)
 									.reverse()
 									.map(([month, trips]) => (
 										<Panel header={monthToString[parseInt(month) - 1]} key={month}>
 											{trips.map((trip) => (
-												// <div className="text-white">
+												//= <div className="text-white">
 												// 	<div>{trip.location}</div>
 												// 	<div>{trip.desc}</div>
 												// </div>
@@ -62,7 +62,7 @@ const Trips: React.FC<Trips> = ({ trips }) => {
 														{trip.urls.map((url) => (
 															<li className="h-[20vh] flex-grow m-1">
 																<img
-																	className="max-h-full min-w-full object-cover align-bottom"
+																	className="max-h-full min-w-full  object-cover align-bottom"
 																	src={url}
 																/>
 															</li>
