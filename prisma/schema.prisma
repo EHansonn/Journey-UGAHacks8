@@ -45,6 +45,8 @@ model User {
   jobName       String?
   hobbies       HobbiesOnUser[]
   home          String?
+  homeLat       Float?
+  homeLon       Float?
 }
 
 model Picture {

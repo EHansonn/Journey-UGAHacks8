@@ -39,7 +39,7 @@ export default function Home() {
 					<div className="grid grid-cols-2 gap-4 text-slate-600">
 						<div>
 							<h3 className="text-2xl font-bold mb-2">A UGAHacks 8 Project</h3>
-							<p className="text-lg">Created by Evan Hanson and Nicholas Newman</p>
+							<p className="text-lg">Created by Evan Hanson and Nicolas Newman</p>
 						</div>
 
 						<div>

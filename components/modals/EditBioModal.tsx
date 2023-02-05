@@ -15,6 +15,8 @@ interface FormFields {
 	job: string;
 	hobbies: string[];
 	home: string;
+	homeLat: number;
+	homeLon: number;
 }
 
 const { TextArea } = Input;
@@ -79,7 +81,7 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user,
 					style={{ maxWidth: 600 }}
 					disabled={isLoading}
 					initialValues={{ remember: true }}
-					onFinish={async ({ bio, hobbies, job, home }) => {
+					onFinish={async ({ bio, hobbies, job, home, homeLat, homeLon }) => {
 						setIsloading(true);
 						console.log('14987189478192478912748912894718947819274891758971895789175hailol');
 						console.log(bio, hobbies, job, home);
@@ -94,6 +96,8 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user,
 								job,
 								id: user.id,
 								home: locationCrap?.formatted_address ?? '',
+								homeLat: locationCrap?.geometry?.location?.lat(),
+								homeLon: locationCrap?.geometry?.location?.lng(),
 							} as UserBody),
 						});
 						console.log(bio, hobbies, job, home);

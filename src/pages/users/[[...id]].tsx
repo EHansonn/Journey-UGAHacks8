@@ -17,6 +17,8 @@ export type User = {
 	job: string;
 	hobbies: string[];
 	home: string;
+	homeLat: number;
+	homeLon: number;
 };
 export type Trip = {
 	desc: string;
@@ -95,7 +97,7 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 			</div>
 			<div className="bg-indigo-800  w-full rounded-md flex h-full w-2/3">
 				{/* <LocationSearch /> */}
-				<RenderMap trips={trips} />;
+				<RenderMap user={user} trips={trips} />;
 			</div>
 		</div>
 	);
@@ -127,6 +129,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req, res, 
 						job: user.jobName ?? '',
 						hobbies: user.hobbies.map((hobby) => hobby.hobbyName),
 						home: user.home ?? '',
+						homeLat: user.homeLat ?? 0,
+						homeLon: user.homeLon ?? 0,
 					},
 					jobs: jobs.map((job) => job.value),
 					hobbies: hobbies.map((hobby) => hobby.value),
