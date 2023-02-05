@@ -45,13 +45,15 @@ const Map: React.FC<Props> = ({ trips, user }) => {
 					center={center}
 					zoom={2.5}
 				>
-					<MarkerF
-						onLoad={onLoad}
-						icon={
-							'https://cdn.discordapp.com/attachments/1071140153445331048/1071638696148861038/house2.png'
-						}
-						position={{ lat: user.homeLat, lng: user.homeLon }}
-					/>
+					{user.homeLat !== 0 && (
+						<MarkerF
+							onLoad={onLoad}
+							icon={
+								'https://cdn.discordapp.com/attachments/1071140153445331048/1071638696148861038/house2.png'
+							}
+							position={{ lat: user.homeLat, lng: user.homeLon }}
+						/>
+					)}
 
 					{trips.map((trip, i) => (
 						<div key={i + 'hi mom'}>
