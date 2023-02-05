@@ -10,6 +10,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { MinusOutlined, PlusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { FriendBody } from '../api/friend';
+import Friends from 'components/account-components/Friends';
 
 export type User = {
 	id: string;
@@ -41,7 +42,7 @@ interface Props {
 }
 
 const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
-	const [displayedInfo, selectDisplayedInfo] = useState<'Bio' | 'Trips' | 'Settings'>('Bio');
+	const [displayedInfo, selectDisplayedInfo] = useState<'Bio' | 'Trips' | 'Settings' | 'Friends'>('Bio');
 	const { data: session } = useSession();
 	const isAccount = session?.user.id === user?.id;
 	console.log(user);
@@ -54,7 +55,7 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 	}
 	return (
 		<div className="flex flex-row  bg-blue-900 rounded-md h-full   ">
-			<div className="overflow-y-scroll bg-blue-1000 rounded-md  flex content-center flex5 flex-col   items-center w-1/3    ">
+			<div className="overflow-y-scroll bg-blue-1000 rounded-md  flex content-center  flex-col   items-center w-1/3    ">
 				<div className="relative">
 					<img src={user.pfp} className="mt-3 bg-slate-500 rounded-full h-[100px] w-[100px]" />
 					{isAccount === false ? (
@@ -120,21 +121,34 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 						Trips
 					</div>
 					{isAccount && (
-						<div
-							className={`cursor-pointer ${
-								displayedInfo === 'Settings'
-									? 'border-b-2 border-x-0 border-t-0 border-white border-solid transition duration-150 hover:scale-125'
-									: ''
-							}`}
-							onClick={() => selectDisplayedInfo('Settings')}
-						>
-							Profile
-						</div>
+						<>
+							<div
+								className={`cursor-pointer ${
+									displayedInfo === 'Settings'
+										? 'border-b-2 border-x-0 border-t-0 border-white border-solid transition duration-150 hover:scale-125'
+										: ''
+								}`}
+								onClick={() => selectDisplayedInfo('Settings')}
+							>
+								Profile
+							</div>
+							<div
+								className={`cursor-pointer ${
+									displayedInfo === 'Friends'
+										? 'border-b-2 border-x-0 border-t-0 border-white border-solid transition duration-150 hover:scale-125'
+										: ''
+								}`}
+								onClick={() => selectDisplayedInfo('Friends')}
+							>
+								Friends
+							</div>
+						</>
 					)}
 				</div>
 				{displayedInfo === 'Bio' && <Bio user={user} />}
 				{displayedInfo === 'Trips' && <Trips trips={trips} />}
 				{displayedInfo === 'Settings' && isAccount && <Settings user={user} jobs={jobs} hobbies={hobbies} />}
+				{displayedInfo === 'Friends' && isAccount && <Friends user={user} />}
 			</div>
 			<div className="bg-indigo-800  w-full rounded-md flex h-full w-2/3 overflow-x-hidden">
 				{/* <LocationSearch /> */}
