@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "homelat" DOUBLE PRECISION,
+ADD COLUMN     "homelon" DOUBLE PRECISION;

@@ -10,6 +10,8 @@ export interface UserBody {
 	// pfp: string;
 	job: string;
 	hobbies: string[];
+	homeLat: number;
+	homeLon: number;
 }
 interface UserApiRequest extends NextApiRequest {
 	body: UserBody;
@@ -48,7 +50,7 @@ export default async function handler(req: UserApiRequest, res: NextApiResponse)
 			return res.status(500).json(err);
 		}
 	} else if (req.method === 'POST') {
-		const { id, name, bio, job, hobbies, home } = req.body;
+		const { id, name, bio, job, hobbies, home, homeLat, homeLon } = req.body;
 		try {
 			console.log(
 				'e9080918290381092389012839018309180918209381902849081902481902840912849021849018049819204819024890',
@@ -59,7 +61,7 @@ export default async function handler(req: UserApiRequest, res: NextApiResponse)
 			await prisma.hobbiesOnUser.createMany({ data: hobbies.map((hobby) => ({ hobbyName: hobby, userId: id })) });
 			const user = await prisma.user.update({
 				where: { id },
-				data: { bio, name, jobName: job, home },
+				data: { bio, name, jobName: job, home, homeLat, homeLon },
 				include: { hobbies: true },
 			});
 			console.log('IOIEWQUIOEUQIOWUEIOQWUIOEUQIOEUOQIWUIORUIOQURIOUQIOTUIQOTWUO');

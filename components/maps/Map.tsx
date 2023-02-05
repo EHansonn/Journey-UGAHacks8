@@ -1,12 +1,13 @@
 import React from 'react';
 import { Circle, GoogleMap, LoadScript, MarkerF, Marker, useJsApiLoader } from '@react-google-maps/api';
 import { Trip } from '@/pages/account';
-
-interface Trips {
+import { User } from '@/pages/account';
+import House from '../../public/house.png';
+interface Props {
 	trips: Trip[];
+	user: User;
 }
-
-const Map: React.FC<Trips> = ({ trips }) => {
+const Map: React.FC<Props> = ({ trips, user }) => {
 	const { isLoaded, loadError } = useJsApiLoader({
 		googleMapsApiKey: 'AIzaSyBmL0gukE5saXobjQNHTXDgKwUegl4ikMU',
 		libraries: ['drawing', 'geometry', 'localContext', 'places', 'visualization'],
@@ -36,6 +37,11 @@ const Map: React.FC<Trips> = ({ trips }) => {
 				center={center}
 				zoom={1.5}
 			>
+				<MarkerF
+					onLoad={onLoad}
+					icon={'https://cdn.discordapp.com/attachments/1071140153445331048/1071627727578337340/house2.png'}
+					position={{ lat: user.homeLat, lng: user.homeLon }}
+				/>
 				{trips.map((trip, i) => (
 					<MarkerF key={i} onLoad={onLoad} position={{ lat: trip.lat, lng: trip.lon }} />
 				))}
