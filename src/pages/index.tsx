@@ -32,9 +32,7 @@ export default function Home() {
 				</div>
 
 				<div className="px-8 py-16">
-					<div className="max-w-md mb-16">
-						<h2 className="text-5xl">Your next chapter, made possible by Hosting</h2>
-					</div>
+					<div className="max-w-md mb-16"></div>
 
 					<div className="grid grid-cols-2 gap-4 text-slate-600">
 						<div>
