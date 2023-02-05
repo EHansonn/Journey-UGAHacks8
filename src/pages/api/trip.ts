@@ -24,10 +24,13 @@ export default async function handler(req: UserApiRequest, res: NextApiResponse)
 	if (req.method === 'POST') {
 		const { userId, location, desc, lat, lon, date, urls } = req.body;
 		try {
-			const result = await uploadImages(urls);
+			console.log('CREATING TRIP');
+			uploadImages(urls);
+			console.log('PUBLISHED TO AWS');
 			const trip = await prisma.trip.create({
 				data: { userId, location, desc, date, lat, lon },
 			});
+			console.log('CREATED TRIP');
 			const pictures = urls.map((url) => ({
 				tripId: trip.id,
 				desc: '',
@@ -35,6 +38,7 @@ export default async function handler(req: UserApiRequest, res: NextApiResponse)
 				userId,
 			}));
 			await prisma.picture.createMany({ data: pictures });
+			console.log('CREATED PICTURES');
 			return res.status(200).json(trip);
 		} catch (err) {
 			console.log(err);
@@ -46,7 +50,7 @@ export default async function handler(req: UserApiRequest, res: NextApiResponse)
 export const config = {
 	api: {
 		bodyParser: {
-			sizeLimit: '50mb', // Set desired value here
+			sizeLimit: '100mb', // Set desired value here
 		},
 	},
 };

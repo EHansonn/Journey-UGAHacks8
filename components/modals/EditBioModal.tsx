@@ -56,8 +56,6 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user,
 	const [locationCrap, setLocationCRap] = useState<google.maps.places.PlaceResult>();
 	const getThing = (props: google.maps.places.PlaceResult) => {
 		//console.log('kekw');
-		console.log(props);
-		console.log(props.geometry?.location?.lat());
 		setLocationCRap(props);
 	};
 
@@ -68,7 +66,6 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user,
 	const onFinishFailed = (errorInfo: any) => {
 		console.log('Failed:', errorInfo);
 	};
-	console.log(jobs);
 	const jobOptions = jobs.map((job) => ({ value: job, label: job }));
 	const hobbyOptions = hobbies.map((hobby) => ({ value: hobby, label: hobby }));
 	return (
@@ -83,8 +80,6 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user,
 					initialValues={{ remember: true }}
 					onFinish={async ({ bio, hobbies, job, home, homeLat, homeLon }) => {
 						setIsloading(true);
-						console.log('14987189478192478912748912894718947819274891758971895789175hailol');
-						console.log(bio, hobbies, job, home);
 						await fetch(`http://localhost:3000/api/user/${user.id}`, {
 							method: 'POST',
 							headers: {

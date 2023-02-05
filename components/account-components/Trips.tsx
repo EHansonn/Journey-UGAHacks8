@@ -30,7 +30,6 @@ const Trips: React.FC<Trips> = ({ trips }) => {
 		};
 	};
 	const now = dateFields(new Date(Date.now()).toLocaleDateString('en-us'));
-	console.log(now);
 	const tabs = trips.reduce<{ [key: string]: { [key: string]: Trip[] } }>(
 		(prev, curr) => {
 			const date = dateFields(curr.date);
@@ -46,7 +45,6 @@ const Trips: React.FC<Trips> = ({ trips }) => {
 		},
 		{ Upcoming: {} },
 	);
-	console.log(tabs);
 	return (
 		<div className="flex-col flex  w-full">
 			<Collapse ghost>
@@ -59,7 +57,7 @@ const Trips: React.FC<Trips> = ({ trips }) => {
 									.reverse()
 									.map(([month, trips]) => (
 										<Panel header={monthToString[parseInt(month) - 1] ?? month} key={month}>
-											{trips.map((trip) => (
+											{trips.reverse().map((trip) => (
 												//= <div className="text-white">
 												// 	<div>{trip.location}</div>
 												// 	<div>{trip.desc}</div>

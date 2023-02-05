@@ -40,20 +40,18 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 	const [displayedInfo, selectDisplayedInfo] = useState<'Bio' | 'Trips' | 'Settings'>('Bio');
 	const { data: session } = useSession();
 	const isAccount = session?.user.id === user?.id;
-	console.log(isAccount);
-	console.log('POOOOP');
 	if (error) {
 		return <div>Error go brrrrrr {error}</div>;
 	}
 	if (!user || !jobs || !hobbies || !trips) {
 		return <div>Oh no no user!</div>;
 	}
-	console.log(user);
-	console.log(trips);
 	return (
 		<div className="flex flex-row  bg-blue-900 rounded-md h-full   ">
 			<div className="overflow-y-scroll bg-blue-1000 rounded-md  flex content-center flex5 flex-col   items-center w-1/3    ">
-				<img src={user.pfp} className="mt-3 bg-slate-500 rounded-full h-[100px] w-[100px]" />
+				<div className="relative">
+					<img src={user.pfp} className="mt-3 bg-slate-500 rounded-full h-[100px] w-[100px]" />
+				</div>
 				<div className="text-white text-2xl  mb-3">{user.name}</div>
 				<div className="flex justify-around w-full min-h-[35px] items-center bg-blue-800 text- mb-4 ">
 					<div
@@ -104,7 +102,6 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({ req, res, query }) => {
-	console.log(query.id);
 	let userId = query.id?.[0] as string | null | undefined;
 	if (!userId) {
 		const session = await getServerSession(req, res, authOptions);

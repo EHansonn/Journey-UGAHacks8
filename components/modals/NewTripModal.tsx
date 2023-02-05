@@ -55,6 +55,7 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({ user 
 	const [previewImage, setPreviewImage] = useState('');
 	const [previewTitle, setPreviewTitle] = useState('');
 	const [fileList, setFileList] = useState<UploadFile[]>([]);
+	const [isLoading, setIsloading] = useState(false);
 
 	const [imagesBody, setImagesBody] = useState<UploadFile[]>([]);
 	const [form] = Form.useForm<FormFields>();
@@ -110,8 +111,6 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({ user 
 
 	const getThing = (props: google.maps.places.PlaceResult) => {
 		//console.log('kekw');
-		console.log(props);
-		console.log(props.geometry?.location?.lat());
 		setLocationCRap(props);
 	};
 	// const onChange = (value, dateString) => {
@@ -132,6 +131,7 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({ user 
 				<Form
 					form={form}
 					name="validate_other"
+					disabled={isLoading}
 					{...formItemLayout}
 					onFinish={async ({ date, desc, location, lat, lon }) => {
 						// When the form is submitted, convert the images to base64 and trigger the GQL mutation
@@ -149,7 +149,8 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({ user 
 								name: `${user.id}-${cuid()}`,
 								body: b64 ?? '',
 							}));
-							fetch(`http://localhost:3000/api/trip`, {
+							setIsloading(true);
+							await fetch(`http://localhost:3000/api/trip`, {
 								method: 'POST',
 								headers: {
 									'Content-Type': 'application/json',
@@ -164,7 +165,11 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({ user 
 									urls: base64,
 								} as TripBody),
 							});
+							setIsloading(false);
+							setIsModalOpen(false);
 						} catch (e: any) {
+							setIsloading(false);
+							console.error(e);
 							//setError(e);
 						}
 						//handleOk();
@@ -197,8 +202,8 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({ user 
 							fileList={imagesBody}
 							onChange={(ee) => onFileListChange(ee)}
 							onPreview={onFileListPreview}
-							maxCount={10}
-							multiple={false}
+							maxCount={20}
+							multiple={true}
 						>
 							<Button className="" icon={<UploadOutlined />}>
 								Click to Upload Image

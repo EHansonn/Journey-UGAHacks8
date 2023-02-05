@@ -17,7 +17,6 @@ interface Props {
 
 const Connect: React.FC<Props> = ({ users, currentUser }) => {
 	const router = useRouter();
-	console.log(users);
 	return (
 		<div className="flex flex-row">
 			<div className="flex-col flex ">
