@@ -2,7 +2,7 @@ import React, { useEffect, useImperativeHandle, useState } from 'react';
 import { UserBody, UserGetResponse } from '@/pages/api/user/[id]';
 import { User } from '@/pages/account';
 import { Button, Modal, Form, Input, Radio, Select } from 'antd';
-
+import Router, { useRouter } from 'next/router';
 interface Props {
 	user: User;
 	hobbies: string[];
@@ -28,14 +28,13 @@ export interface EditBioRef {
 const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user, jobs, hobbies }, ref) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [form] = Form.useForm<FormFields>();
-
+	const [isLoading, setIsloading] = useState(false);
 	useImperativeHandle(ref, () => ({
 		visible: isModalOpen,
 		cancel: handleCancel,
 		okay: handleOk,
 		showModal,
 	}));
-
 	const showModal = (visible: boolean) => {
 		setIsModalOpen(visible);
 	};
@@ -69,15 +68,20 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user,
 					labelCol={{ span: 8 }}
 					wrapperCol={{ span: 16 }}
 					style={{ maxWidth: 600 }}
+					disabled={isLoading}
 					initialValues={{ remember: true }}
-					onFinish={({ bio, hobbies, job }) => {
-						fetch(`http://localhost:3000/api/user/${user.id}`, {
+					onFinish={async ({ bio, hobbies, job }) => {
+						setIsloading(true);
+						await fetch(`http://localhost:3000/api/user/${user.id}`, {
 							method: 'POST',
 							headers: {
 								'Content-Type': 'application/json',
 							},
 							body: JSON.stringify({ bio, hobbies, job, id: user.id } as UserBody),
 						});
+						setIsloading(false);
+						setIsModalOpen(false);
+						Router.reload(window.location.pathname);
 					}}
 					onFinishFailed={onFinishFailed}
 					autoComplete="off"

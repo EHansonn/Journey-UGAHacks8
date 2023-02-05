@@ -29,6 +29,7 @@ import { TripBody } from '@/pages/api/trip';
 import { uploadImages } from 'lib/aws';
 import cuid from 'lib/cuid';
 import { User } from '@/pages/account';
+import { Router } from 'next/router';
 
 interface FormFields {
 	location: string;
