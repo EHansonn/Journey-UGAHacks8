@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
-		"start": "next start",
+		"start": "next start ",
 		"lint": "next lint",
 		"prisma:studio": "dotenv -e .env prisma studio",
 		"prisma:migrate": "dotenv -e .env prisma migrate dev",

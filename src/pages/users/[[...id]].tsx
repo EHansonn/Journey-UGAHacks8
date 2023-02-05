@@ -23,8 +23,11 @@ export type User = {
 	homeLat: number;
 	homeLon: number;
 	friends: {
-		bio: ReactNode; name: string; image: string; id: string
-}[];
+		bio: ReactNode;
+		name: string;
+		image: string;
+		id: string;
+	}[];
 	friendedBy: { name: string; image: string; id: string }[];
 };
 export type Trip = {
@@ -50,7 +53,6 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 		selectDisplayedInfo('Bio');
 	};
 
-
 	const { data: session } = useSession();
 	const isAccount = session?.user.id === user?.id;
 	console.log(user);
@@ -71,7 +73,7 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 							onClick={() => {
 								console.log('click');
 								if (friendIds?.includes(session?.user.id ?? '')) {
-									fetch('http://localhost:3000/api/friend', {
+									fetch(`http://${window.location.host}/api/friend`, {
 										method: 'POST',
 										headers: {
 											'Content-Type': 'application/json',
@@ -83,7 +85,7 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 										} as FriendBody),
 									});
 								} else {
-									fetch('http://localhost:3000/api/friend', {
+									fetch(`http://${window.location.host}/api/friend`, {
 										method: 'POST',
 										headers: {
 											'Content-Type': 'application/json',
