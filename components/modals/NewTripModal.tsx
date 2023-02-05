@@ -154,7 +154,7 @@ const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({ user 
 								body: b64 ?? '',
 							}));
 							setIsloading(true);
-							await fetch(`http://localhost:3000/api/trip`, {
+							await fetch(`http://${window.location.host}/api/trip`, {
 								method: 'POST',
 								headers: {
 									'Content-Type': 'application/json',

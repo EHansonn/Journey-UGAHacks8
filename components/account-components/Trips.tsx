@@ -57,17 +57,20 @@ const Trips: React.FC<Trips> = ({ trips }) => {
 									.reverse()
 									.map(([month, trips]) => (
 										<Panel header={monthToString[parseInt(month) - 1] ?? month} key={month}>
-											{trips.reverse().map((trip) => (
+											{trips.reverse().map((trip, i1) => (
 												//= <div className="text-white">
 												// 	<div>{trip.location}</div>
 												// 	<div>{trip.desc}</div>
 												// </div>
-												<Card title={trip.location}>
+												<Card title={trip.location} key={i1}>
 													<div>{trip.date}</div>
 													<div>{trip.desc}</div>
 													<ul className="flex flex-wrap list-none m-0 p-0">
-														{trip.urls.map((url) => (
-															<li className="h-[20vh] flex-grow m-1 overflow-x-hidden">
+														{trip.urls.map((url, i2) => (
+															<li
+																key={i2}
+																className="h-[20vh] flex-grow m-1 overflow-x-hidden"
+															>
 																<img
 																	className="max-h-full min-w-full  object-cover align-bottom"
 																	src={url}

@@ -31,7 +31,7 @@ const Connect: React.FC<Props> = ({ users, currentUser }) => {
 				{Object.entries(users).map(([location, user], i) => {
 					if (user.length > 0) {
 						return (
-							<Card title={location} className="mr-6">
+							<Card key={i} title={location} className="mr-6">
 								<div className="flex-col flex">
 									{user.map((u) => (
 										<Card

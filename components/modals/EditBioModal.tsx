@@ -45,7 +45,7 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user,
 
 	const handleOk = async () => {
 		setIsModalOpen(false);
-		fetch(`http://localhost:3000/api/user/${user.id}`, {
+		fetch(`http://${window.location.host}/api/user/${user.id}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ const EditBioModal: React.ForwardRefRenderFunction<EditBioRef, Props> = ({ user,
 					initialValues={{ remember: true }}
 					onFinish={async ({ bio, hobbies, job, home, homeLat, homeLon }) => {
 						setIsloading(true);
-						await fetch(`http://localhost:3000/api/user/${user.id}`, {
+						await fetch(`http://${window.location.host}/api/user/${user.id}`, {
 							method: 'POST',
 							headers: {
 								'Content-Type': 'application/json',

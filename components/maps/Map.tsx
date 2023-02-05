@@ -51,7 +51,12 @@ const Map: React.FC<Props> = ({ trips, user }) => {
 							icon={
 								'https://cdn.discordapp.com/attachments/1071140153445331048/1071638696148861038/house2.png'
 							}
-							position={{ lat: user.homeLat, lng: user.homeLon }}
+							position={
+								{
+									lat: user.homeLat,
+									lng: user.homeLon,
+								} as unknown as google.maps.LatLng
+							}
 						/>
 					)}
 

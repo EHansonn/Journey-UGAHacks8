@@ -15,6 +15,7 @@ const LocationSearch: React.FC<Props> = (props) => {
 	const [someState, setSomeState] = useState(false);
 	//@ts-ignore
 	const onPlaceSelected = React.forwardRef(() => undefined);
+	onPlaceSelected.displayName = 'onPlaceSelected';
 
 	const toggleState = useCallback(() => {
 		const newState = !someState;
