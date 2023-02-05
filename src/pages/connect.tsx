@@ -20,45 +20,35 @@ const Connect: React.FC<Props> = ({ users, currentUser }) => {
 	console.log(users);
 	return (
 		<div className="flex flex-row">
-			<div className="flex-auto">
-				
-			</div>
-			<div className="flex-col flex space-y-4  ">
-				<Space direction="vertical" size="middle" style={{ display: 'flex' }}>
-					{users.map((user, i) => (
-						<Card key={i} title={user.name} className="" size="small">
-							<div className="flex ">
-								<img src={user.image} className=" bg-slate-500 rounded-full  h-[100px] w-[100px]" />
-								<div className="flex justify-evenly  w-full">
-									<div className="flex flex-col border-2 border-black ">
-										About<div>{user.bio}</div>{' '}
-									</div>
-									<div className="flex flex-col ">
-										Hobbies
-										{user.hobbies.map((hobby, i) => (
-											<div key={i}>{hobby.hobbyName}</div>
-										))}
-									</div>
-									{/* <Link
-									className="text-black flex justify-center  mr-10 no-underline"
-									href={`/users/${user.id}`}
+			<div className="flex-col flex ">
+				{/* <Space direction="vertical" size="middle" style={{ display: 'flex' }}> */}
+				{users.map((user, i) => (
+					<Card key={i} title={user.name} className="" size="small">
+						<div className="flex ">
+							<img
+								src={user.image ?? ''}
+								className=" bg-slate-500 rounded-full  h-[100px] w-[100px] mr-3"
+							/>
+							<div className="flex flex-col justify-evenly">
+								<div>{user.bio}</div>
+								<div className="">
+									Hobbies: {user.hobbies.map((hobby, i) => hobby.hobbyName).join(', ')}
+								</div>
+								<div className="">Job: {user.jobName}</div>
+								<Button
+									className="w-32"
+									onClick={() => {
+										router.push(`/users/${user.id}`);
+									}}
+									type="primary"
 								>
 									Connect
-								</Link> */}
-									<Button
-										className="flex"
-										onClick={() => {
-											router.push(`/users/${user.id}`);
-										}}
-										type="primary"
-									>
-										Connect
-									</Button>
-								</div>
+								</Button>
 							</div>
-						</Card>
-					))}
-				</Space>
+						</div>
+					</Card>
+				))}
+				{/* </Space> */}
 			</div>
 		</div>
 	);
@@ -77,6 +67,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req, res }
 				bio: true,
 				hobbies: { select: { hobby: true } },
 				jobName: true,
+				trips: { select: { location: true, date: true } },
 			},
 		});
 
@@ -88,14 +79,24 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req, res }
 				bio: true,
 				hobbies: { include: { hobby: true } },
 				jobName: true,
+				home: true,
 			},
 		});
 
-		if (users) {
+		if (users && currentUser) {
+			const now = new Date(Date.now());
+			const tripLocations: string[] = [];
+			currentUser?.trips.forEach((trip) => {
+				if (trip.date > now) {
+					tripLocations.push(trip.location);
+				}
+			});
+			currentUser.trips = [];
 			console.log('potato');
+			const filtered = users.filter((user) => tripLocations.includes(user.home ?? ''));
 			return {
 				props: {
-					users,
+					users: filtered,
 					currentUser,
 				},
 			};
