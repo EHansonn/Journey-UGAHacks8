@@ -8,7 +8,7 @@ interface Props {
 const Bio: React.FC<Props> = ({ user }) => {
 	return (
 		<>
-			<Card className="  w-full " title="About">
+			<Card className="mx-2  " title="About">
 				<p>{user.bio}</p>
 				<p>Job: {user.job}</p>
 				<p>From: {user.home}</p>

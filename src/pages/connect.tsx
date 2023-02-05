@@ -31,10 +31,15 @@ const Connect: React.FC<Props> = ({ users, currentUser }) => {
 				{Object.entries(users).map(([location, user], i) => {
 					if (user.length > 0) {
 						return (
-							<Card title={location}>
+							<Card title={location} className="mr-6">
 								<div className="flex-col flex">
 									{user.map((u) => (
-										<Card key={i} title={u.name} className="mb-3" size="small">
+										<Card
+											key={i}
+											title={u.name}
+											className="mb-3 shadow-md min-w-[380px]"
+											size="small"
+										>
 											<div className="flex ">
 												<img
 													src={u.image ?? ''}
