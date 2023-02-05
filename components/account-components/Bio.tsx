@@ -1,4 +1,5 @@
 import { User } from '@/pages/account';
+import { Card } from 'antd';
 
 interface Props {
 	user: User;
@@ -7,15 +8,12 @@ interface Props {
 const Bio: React.FC<Props> = ({ user }) => {
 	return (
 		<>
-			<div className="text-white grid grid-cols-2 mx-3">
-				<div className="col-span-2 justify-self-center mb-3">{user.bio}</div>
-				<div className="justify-self-center w-20 text-end mb-2">Job:</div>
-				<div>{user.job}</div>
-				<div className="justify-self-center w-20 text-end mb-2">Hobbies:</div>
-				<div>{user.hobbies.join(', ')}</div>
-				<div className="justify-self-center w-20 text-end mb-2">Home:</div>
-				<div>{user.home}</div>
-			</div>
+			<Card className="  w-full " title="About">
+				<p>{user.bio}</p>
+				<p>Job: {user.job}</p>
+				<p>From: {user.home}</p>
+				<p>Hobbies: {user.hobbies.join(', ')}</p>
+			</Card>
 		</>
 	);
 };

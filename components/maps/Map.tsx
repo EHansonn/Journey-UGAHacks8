@@ -37,6 +37,7 @@ const Map: React.FC<Props> = ({ trips, user }) => {
 		return (
 			// <LoadScript googleMapsApiKey="AIzaSyBmL0gukE5saXobjQNHTXDgKwUegl4ikMU">
 			<div>
+				<TripDataModal ref={TripDataRef} />
 				<GoogleMap
 					mapContainerClassName=" w-screen h-full"
 					id="circle-example"
@@ -51,7 +52,7 @@ const Map: React.FC<Props> = ({ trips, user }) => {
 						}
 						position={{ lat: user.homeLat, lng: user.homeLon }}
 					/>
-					<TripDataModal ref={TripDataRef} />
+
 					{trips.map((trip, i) => (
 						<div key={i + 'hi mom'}>
 							<MarkerF
