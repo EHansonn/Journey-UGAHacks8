@@ -9,16 +9,20 @@ import Link from 'next/link';
 import { User } from '@prisma/client';
 import { useRouter } from 'next/router';
 import Trips from '../../components/account-components/Trips';
+
 interface Props {
 	users: User[];
+	currentUser: User;
 }
 
-const Connect: React.FC<Props> = ({ users }) => {
+const Connect: React.FC<Props> = ({ users, currentUser }) => {
 	const router = useRouter();
 	console.log(users);
 	return (
 		<div className="flex flex-row">
-			<div className="flex-auto"></div>
+			<div className="flex-auto">
+				
+			</div>
 			<div className="flex-col flex space-y-4  ">
 				<Space direction="vertical" size="middle" style={{ display: 'flex' }}>
 					{users.map((user, i) => (
@@ -64,6 +68,18 @@ export default Connect;
 export const getServerSideProps: GetServerSideProps<Props> = async ({ req, res }) => {
 	const session = await getServerSession(req, res, authOptions);
 	if (session) {
+		const currentUser = await prisma?.user.findUnique({
+			where: { id: session.user.id },
+			select: {
+				id: true,
+				name: true,
+				image: true,
+				bio: true,
+				hobbies: { select: { hobby: true } },
+				jobName: true,
+			},
+		});
+
 		const users = await prisma?.user.findMany({
 			select: {
 				id: true,
@@ -80,6 +96,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ req, res }
 			return {
 				props: {
 					users,
+					currentUser,
 				},
 			};
 		}

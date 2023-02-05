@@ -44,6 +44,7 @@ model User {
   job           Job?            @relation(fields: [jobName], references: [value])
   jobName       String?
   hobbies       HobbiesOnUser[]
+  home          String?
 }
 
 model Picture {

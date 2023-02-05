@@ -12,7 +12,7 @@ const Bio: React.FC<Props> = ({ user }) => {
 				<div>Job:</div>
 				<div>{user.job}</div>
 				<div>Home:</div>
-				<div>Tamriel</div>
+				<div>{user.home}</div>
 				<div>Hobbies:</div>
 				<div>{user.hobbies.join(', ')}</div>
 			</div>
