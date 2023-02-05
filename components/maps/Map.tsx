@@ -51,6 +51,7 @@ const Map: React.FC<Props> = ({ trips, user }) => {
 							icon={
 								'https://cdn.discordapp.com/attachments/1071140153445331048/1071638696148861038/house2.png'
 							}
+							//@ts-ignore
 							position={{ lat: user.homeLat, lng: user.homeLon }}
 						/>
 					)}
