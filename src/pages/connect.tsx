@@ -26,44 +26,48 @@ const Connect: React.FC<Props> = ({ users, currentUser }) => {
 	console.log(users);
 	return (
 		<div className="flex flex-row">
-			{true && (
-				<div className=" flex  ">
-					{/* <Space direction="vertical" size="middle" style={{ display: 'flex' }}> */}
-					{Object.entries(users).map(([location, user], i) => (
-						<Card title={location}>
-							<div className="flex-col flex">
-								{user.map((u) => (
-									<Card key={i} title={u.name} className="mb-3" size="small">
-										<div className="flex ">
-											<img
-												src={u.image ?? ''}
-												className=" bg-slate-500 rounded-full  h-[100px] w-[100px] mr-3"
-											/>
-											<div className="flex flex-col justify-evenly">
-												<div>{u.bio}</div>
-												<div className="">
-													Hobbies: {u.hobbies.map((hobby, i) => hobby.hobbyName).join(', ')}
+			<div className=" flex  ">
+				{/* <Space direction="vertical" size="middle" style={{ display: 'flex' }}> */}
+				{Object.entries(users).map(([location, user], i) => {
+					if (user.length > 0) {
+						return (
+							<Card title={location}>
+								<div className="flex-col flex">
+									{user.map((u) => (
+										<Card key={i} title={u.name} className="mb-3" size="small">
+											<div className="flex ">
+												<img
+													src={u.image ?? ''}
+													className=" bg-slate-500 rounded-full  h-[100px] w-[100px] mr-3"
+												/>
+												<div className="flex flex-col justify-evenly">
+													<div>{u.bio}</div>
+													<div className="">
+														Hobbies:{' '}
+														{u.hobbies.map((hobby, i) => hobby.hobbyName).join(', ')}
+													</div>
+													<div className="">Job: {u.jobName}</div>
+													<Button
+														className="w-32"
+														onClick={() => {
+															router.push(`/users/${u.id}`);
+														}}
+														type="primary"
+													>
+														Connect
+													</Button>
 												</div>
-												<div className="">Job: {u.jobName}</div>
-												<Button
-													className="w-32"
-													onClick={() => {
-														router.push(`/users/${u.id}`);
-													}}
-													type="primary"
-												>
-													Connect
-												</Button>
 											</div>
-										</div>
-									</Card>
-								))}
-							</div>
-						</Card>
-					))}
-					{/* </Space> */}
-				</div>
-			)}
+										</Card>
+									))}
+								</div>
+							</Card>
+						);
+					}
+					return <></>;
+				})}
+				{/* </Space> */}
+			</div>
 		</div>
 	);
 };
