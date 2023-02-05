@@ -29,7 +29,7 @@ import { TripBody } from '@/pages/api/trip';
 import { uploadImages } from 'lib/aws';
 import cuid from 'lib/cuid';
 import { User } from '@/pages/account';
-import { Router } from 'next/router';
+import { Router, useRouter } from 'next/router';
 
 interface FormFields {
 	location: string;
@@ -51,6 +51,10 @@ export interface NewTripRef {
 const NewTripModal: React.ForwardRefRenderFunction<NewTripRef, Props> = ({ user }, ref) => {
 	//	const AutoCompleteRef = useRef<AutoCompleteRef>(null);
 
+	// const router = useRouter();
+	// const refreshData = () => {
+	// 	router.replace(router.asPath);
+	// };
 	const [previewOpen, setPreviewOpen] = useState(false);
 	const [previewImage, setPreviewImage] = useState('');
 	const [previewTitle, setPreviewTitle] = useState('');
