@@ -5,7 +5,7 @@ const Navbar = () => {
 	const { data: session } = useSession();
 	return (
 		<>
-			<div className="sticky top-0 w-full left-0 bg-inherit flex justify-start bg-indigo-900 p-4   ">
+			<div className="top-0 w-full left-0 bg-inherit flex justify-start bg-indigo-900 p-4   ">
 				{/* <h1 className="text-lg select-none "> */}
 				<div className="mr-10">Website name</div>
 				<div className="flex">

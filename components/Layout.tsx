@@ -12,7 +12,7 @@ const Layout: NextPage<Props> = ({ children }) => {
 	return (
 		<div className="flex flex-col  h-screen relative bg-slate-900 text-white">
 			<Navbar></Navbar>
-			<main className="flex-1 flex flex-col p-4">{children}</main>
+			<main className="flex-1 flex flex-col p-4 max-h-[calc(100%-50px)]">{children}</main>
 			<div className="text-blue-600"></div>
 		</div>
 	);

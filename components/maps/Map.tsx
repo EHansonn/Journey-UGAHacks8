@@ -30,7 +30,7 @@ const Map: React.FC<Trips> = ({ trips }) => {
 		return (
 			// <LoadScript googleMapsApiKey="AIzaSyBmL0gukE5saXobjQNHTXDgKwUegl4ikMU">
 			<GoogleMap
-				mapContainerClassName=" w-screen h-[800px] w-"
+				mapContainerClassName=" w-screen h-full"
 				id="circle-example"
 				// mapContainerStyle={containerStyle}
 				center={center}

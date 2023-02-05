@@ -39,12 +39,12 @@ const Trips: React.FC<Trips> = ({ trips }) => {
 	}, {});
 	console.log(tabs);
 	return (
-		<div className="flex-col flex max-w-full  w-full">
+		<div className="flex-col flex  w-full">
 			<Collapse ghost>
 				{Object.entries(tabs)
 					.reverse()
 					.map(([year, months]) => (
-						<Panel className="bg-blue-100 rounded-xl w-full" header={year} key={year}>
+						<Panel className="bg-blue-100 rounded-xl mb-4 mx-2" header={year} key={year}>
 							<Collapse ghost>
 								{Object.entries(months)
 									.reverse()

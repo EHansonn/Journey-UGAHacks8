@@ -38,7 +38,7 @@ export default async function handler(req: UserApiRequest, res: NextApiResponse)
 				res.status(200).json({
 					name: user.name,
 					bio: user.bio,
-					pfp: user.pfp,
+					pfp: user.image,
 					id,
 				});
 			}

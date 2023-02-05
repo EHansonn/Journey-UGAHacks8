@@ -5,7 +5,6 @@ import Trips from 'components/account-components/Trips';
 import RenderMap from '../../../components/maps/Map';
 import { useSession } from 'next-auth/react';
 import LocationSearch from 'components/maps/AutoComplete';
-import { UserGetResponse } from './api/user/[id]';
 import { GetServerSideProps, NextPage } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
@@ -50,10 +49,10 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 	console.log(trips);
 	return (
 		<div className="flex flex-row  bg-blue-900 rounded-md h-full   ">
-			<div className="bg-blue-1000 rounded-md  flex content-center flex5 flex-col   items-center w-1/3    ">
+			<div className="overflow-y-scroll bg-blue-1000 rounded-md  flex content-center flex5 flex-col   items-center w-1/3    ">
 				<img src={user.pfp} className="mt-3 bg-slate-500 rounded-full h-[100px] w-[100px]" />
 				<div className="text-white text-2xl  mb-3">{user.name}</div>
-				<div className="flex justify-around w-full h-10 items-center bg-blue-800 text- mb-4 ">
+				<div className="flex justify-around w-full min-h-[35px] items-center bg-blue-800 text- mb-4 ">
 					<div
 						className={`cursor-pointer ${
 							displayedInfo === 'Bio'
@@ -85,7 +84,7 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 							}`}
 							onClick={() => selectDisplayedInfo('Settings')}
 						>
-							Manage Profile
+							Profile
 						</div>
 					)}
 				</div>
@@ -103,7 +102,7 @@ const Account: NextPage<Props> = ({ user, error, hobbies, jobs, trips }) => {
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({ req, res, query }) => {
 	console.log(query.id);
-	let userId = query.id[0] as string | null | undefined;
+	let userId = query.id?.[0] as string | null | undefined;
 	if (!userId) {
 		const session = await getServerSession(req, res, authOptions);
 		userId = session?.user.id;
