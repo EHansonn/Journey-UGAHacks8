@@ -25,7 +25,7 @@ export default function Home() {
 							<h1 className="text-6xl font-bold">Connect with others who have been to similar places</h1>
 							<p className="text-lg">
 								Instead of uploading all of your travel pictures to Instagram, use this dedicated tool
-								to upload and track all of the places you've been.
+								to upload and track all of the places you{"'"}ve been.
 							</p>
 						</div>
 					</div>
